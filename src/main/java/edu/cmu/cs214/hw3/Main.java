@@ -11,14 +11,17 @@ public class Main {
 
     public static void main(String[] args) {
         Board board = new Board();
-        board.addStartLocation(0, 1, 1);
-        board.addStartLocation(0, 1, 1);
-        board.addStartLocation(1, 1, 1);
-        board.addStartLocation(1, 1, 1);
+        board.addStartLocation(0, 0, 0);
+        board.addStartLocation(0, 4, 4);
+        board.addStartLocation(1, 0, 4);
+        board.addStartLocation(1, 4, 0);
 
         try(Scanner sc = new Scanner(System.in)) {
             while (!board.isGameOver()) {
+                System.out.println("---------------------------------------");
                 board.startRound();
+                System.out.println("Round: " + board.getRound() + " ,Current " + board.getCurrentPlayer());
+                board.printBoard();
                 boolean moveSuccess = false;
                 while (!moveSuccess) {
                     System.out.println("select a place to move.");
@@ -33,6 +36,7 @@ public class Main {
                     System.out.println("Game Over. Winner is: " + board.getCurrentPlayer());
                     return;
                 }
+                board.printBoard();
                 boolean buildSuccess = false;
                 while (!buildSuccess) {
                     System.out.println("select a place to build.");
