@@ -58,8 +58,8 @@ public class Board {
 
 
     public void startRound() {
-        round++;
         currPlayer = players.get(round % PLAYER_NUM);
+        round++;
     }
 
     public boolean moveWorker(int workerIndex, Direction dir) {
@@ -89,9 +89,10 @@ public class Board {
         // before actually move the worker, change the inner state of field.
         free(currLocation);
         occupy(destination);
+        System.out.println("dest: " + destination);
 
         // end game.
-        if (!fieldMap.get(destination).isBlockFull()) {
+        if (fieldMap.get(destination).isBlockFull()) {
             gameOver = true;
         }
 
@@ -102,11 +103,10 @@ public class Board {
     public boolean build(int workerIndex, Direction dir) {
         // build action always follows the move, so no need to verify buildDestination (failsafe)
         Location buildDestination = currPlayer.getDestination(workerIndex, dir);
-        Field fieldToBuild;
-        try {
-            fieldToBuild = fieldMap.get(buildDestination);
-        } catch (Exception e){
-            System.out.println("building destination is not on board.");
+        System.out.println("buildDestination: " + buildDestination);
+        Field fieldToBuild = fieldMap.get(buildDestination);
+        if (fieldToBuild == null) {
+            System.out.println("destination is not on board.");
             return false;
         }
         return fieldToBuild.build();
@@ -120,7 +120,7 @@ public class Board {
         return gameOver;
     }
 
-    public boolean isOccupied(Location location) {
+    private boolean isOccupied(Location location) {
         return fieldMap.get(location).isOccupied();
     }
 
@@ -137,5 +137,35 @@ public class Board {
     }
 
 
+    public void printBoard() {
+        for (int i = 0; i < ROWS; i++) {
+            for (int j = 0; j < COLS; j++) {
+                Location currLoc = new Location(i, j);
+                if (fieldMap.get(currLoc).hasWorker()){
+                    // print player.
+                    for (int q = 0; q < 2; q++) {
+                        Player currP = players.get(q);
+                        for (int w = 0; w < 2; w++) {
+                            if (currP.getWorkerLocation(w).equals(currLoc)) {
+                                System.out.print(currP.symbol());
+                            }
+                        }
+                    } // print player
+                } else {
+                    int lvl = fieldMap.get(currLoc).getLevel();
+                    if (lvl == 0) {
+                        System.out.print("-");
+                    } else {
+                        System.out.print(lvl);
+                    }
+                }
+                System.out.print(" ");
+            }
+            System.out.println();
+        }
+    }
 
+    public int getRound() {
+        return round;
+    }
 }
