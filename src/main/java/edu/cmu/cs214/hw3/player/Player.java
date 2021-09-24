@@ -21,6 +21,11 @@ public class Player {
         if (workers.size() == WORKER_NUM) {
             return false;
         }
+        for (Worker w: workers) {
+            if (w.getLocation().equals(location)) {
+                return false;
+            }
+        }
         workers.add(new Worker(location));
         return true;
     }
@@ -46,5 +51,17 @@ public class Player {
     @Override
     public String toString() {
         return "Player: " + playerNum;
+    }
+
+    /**
+     * helper method to show the symbol of player on the board.
+     * @return the symbol of the player on board.
+     *         "A" represents player 0, "B" represents player 1.
+     */
+    public String symbol() {
+        if (playerNum == 0) {
+            return "A";
+        }
+        return "B";
     }
 }
