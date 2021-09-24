@@ -2,7 +2,6 @@ package edu.cmu.cs214.hw3.playground;
 
 public class Field {
 
-    private boolean hasDome;
     private boolean hasWorker;
     private final Tower building;
 
@@ -11,7 +10,6 @@ public class Field {
     }
 
     public Field(boolean hasWorker) {
-        hasDome = false;
         this.hasWorker = hasWorker;
         building = new Tower();
     }
@@ -29,33 +27,34 @@ public class Field {
     }
 
     public boolean build() {
-        if (!isOccupied()) {
+        if (isOccupied()) {
             return false;
         }
         building.build();
-        if (!isBuildable()) {
-            // check if it can be built a step higher.
-            hasDome = true;
-        }
         return true;
     }
 
     public boolean isOccupied() {
-        return hasDome || hasWorker;
+        return !isBuildable() || hasWorker;
+    }
+
+    public boolean isBlockFull() {
+        return building.isBlockFull();
     }
 
     private boolean isBuildable() {
         return building.isBuildable();
     }
 
-
-
-    public boolean isBlockFull() {
-        return building.isBlockFull();
-    }
-
     private int getHeight() {
         return building.getHeight();
     }
 
+    public boolean hasWorker() {
+        return hasWorker;
+    }
+
+    public int getLevel() {
+        return building.getHeight();
+    }
 }
