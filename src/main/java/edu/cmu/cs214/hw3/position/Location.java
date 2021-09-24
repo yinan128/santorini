@@ -16,31 +16,36 @@ public final class Location {
         if (dir == null) {
             throw new IllegalArgumentException("invalid direction");
         }
-        int destRow = row;
-        int destCol = col;
         switch (dir) {
-            case UP -> destRow = destRow - 1;
+            case UP -> {
+                return new Location(row - 1, col);
+            }
+
             case UPLEFT -> {
-                destRow = destRow - 1;
-                destCol = destCol - 1;
+                return new Location(row - 1, col - 1);
             }
             case UPRIGHT -> {
-                destRow = destRow - 1;
-                destCol = destCol + 1;
+                return new Location(row - 1, col + 1);
             }
-            case LEFT -> destCol = destCol - 1;
-            case RIGHT -> destCol = destCol + 1;
+            case LEFT -> {
+                return new Location(row, col - 1);
+            }
+            case RIGHT -> {
+                return new Location(row, col + 1);
+            }
             case DOWNLEFT -> {
-                destRow = destRow + 1;
-                destCol = destCol - 1;
+                return new Location(row + 1, col - 1);
             }
-            case DOWN -> destRow = destRow + 1;
+            case DOWN -> {
+                return new Location(row + 1, col);
+            }
             case DOWNRIGHT -> {
-                destRow = destRow + 1;
-                destCol = destCol + 1;
+                return new Location(row + 1, col + 1);
+            }
+            default -> {
+                throw new IllegalArgumentException("Direction is not valid,");
             }
         }
-        return new Location(destRow, destCol);
     }
 
     @Override

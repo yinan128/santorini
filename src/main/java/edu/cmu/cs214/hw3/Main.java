@@ -8,13 +8,14 @@ import java.util.Scanner;
 
 public class Main {
 
+    private static final int CORNER = 4;
 
     public static void main(String[] args) {
         Board board = new Board();
         board.addStartLocation(0, 0, 0);
-        board.addStartLocation(0, 4, 4);
-        board.addStartLocation(1, 0, 4);
-        board.addStartLocation(1, 4, 0);
+        board.addStartLocation(0, CORNER, CORNER);
+        board.addStartLocation(1, 0, CORNER);
+        board.addStartLocation(1, CORNER, 0);
 
         try(Scanner sc = new Scanner(System.in)) {
             while (!board.isGameOver()) {
