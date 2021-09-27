@@ -112,11 +112,8 @@ public class Board {
         return fieldToBuild.build();
     }
 
-    public String getCurrentPlayer() {
-        return currPlayer.toString();
-    }
-
     public boolean isGameOver() {
+        System.out.println("Winner is:" + getCurrentPlayer());
         return gameOver;
     }
 
@@ -136,36 +133,7 @@ public class Board {
         fieldMap.get(location).free();
     }
 
-
-    public void printBoard() {
-        for (int i = 0; i < ROWS; i++) {
-            for (int j = 0; j < COLS; j++) {
-                Location currLoc = new Location(i, j);
-                if (fieldMap.get(currLoc).hasWorker()){
-                    // print player.
-                    for (int q = 0; q < 2; q++) {
-                        Player currP = players.get(q);
-                        for (int w = 0; w < 2; w++) {
-                            if (currP.getWorkerLocation(w).equals(currLoc)) {
-                                System.out.print(currP.symbol());
-                            }
-                        }
-                    } // print player
-                } else {
-                    int lvl = fieldMap.get(currLoc).getLevel();
-                    if (lvl == 0) {
-                        System.out.print("-");
-                    } else {
-                        System.out.print(lvl);
-                    }
-                }
-                System.out.print(" ");
-            }
-            System.out.println();
-        }
-    }
-
-    public int getRound() {
-        return round;
+    private String getCurrentPlayer() {
+        return currPlayer.toString();
     }
 }
