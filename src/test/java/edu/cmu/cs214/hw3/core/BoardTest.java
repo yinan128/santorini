@@ -8,11 +8,11 @@ import static org.junit.Assert.*;
 
 public class BoardTest {
 
-    private Board board;
+    private Game board;
 
     @Before
     public void setup() {
-        board = new Board();
+        board = new Game();
         // place workers at the corners.
         board.addStartLocation(0, 0, 0);
         board.addStartLocation(0, 4, 4);
