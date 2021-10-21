@@ -21,20 +21,15 @@ public class Player {
         if (workers.size() == WORKER_NUM) {
             return false;
         }
-        for (Worker w: workers) {
-            if (w.getLocation().equals(location)) {
-                return false;
-            }
-        }
         workers.add(new Worker(location));
         return true;
     }
 
-    public boolean moveWorker(int workerIndex, Direction dir) {
+    public boolean moveWorker(int workerIndex, Location destination) {
         if (workerIndex > workers.size() - 1) {
             throw new IllegalArgumentException("worker index out of bound");
         }
-        return workers.get(workerIndex).moveAtDir(dir);
+        return workers.get(workerIndex).moveTo(destination);
     }
 
     public Location getDestination(int workerIndex, Direction dir) {
@@ -63,5 +58,14 @@ public class Player {
             return "A";
         }
         return "B";
+    }
+
+    public Worker getWorker(int workerIndex) {
+        return workers.get(workerIndex);
+    }
+
+    public Worker getLastWorker() {
+        if (workers.size() == 0) return null;
+        return workers.get(workers.size() - 1);
     }
 }

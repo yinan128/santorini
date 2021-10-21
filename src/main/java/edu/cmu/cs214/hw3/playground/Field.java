@@ -1,12 +1,15 @@
 package edu.cmu.cs214.hw3.playground;
 
+import edu.cmu.cs214.hw3.player.Worker;
+
 public class Field {
 
     private boolean hasWorker;
     private final Tower building;
+    private Worker worker;
 
     public static boolean isMovable(Field start, Field dest) {
-        return !dest.isOccupied() && (dest.getHeight() - start.getHeight() <= 1);
+        return dest.getHeight() - start.getHeight() <= 1;
     }
 
     public Field(boolean hasWorker) {
@@ -18,12 +21,12 @@ public class Field {
         this(false);
     }
 
-    public void occupy() {
-        hasWorker = true;
+    public void occupy(Worker worker) {
+        this.worker = worker;
     }
 
     public void free() {
-        hasWorker = false;
+        worker = null;
     }
 
     public boolean build() {
@@ -51,10 +54,17 @@ public class Field {
     }
 
     public boolean hasWorker() {
-        return hasWorker;
+        return worker != null;
     }
 
     public int getLevel() {
         return building.getHeight();
+    }
+
+    public Worker getWorker() {
+        if (worker == null) {
+            throw new IllegalStateException();
+        }
+        return worker;
     }
 }

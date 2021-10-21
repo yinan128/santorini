@@ -1,14 +1,12 @@
 package edu.cmu.cs214.hw3.core;
 
+import edu.cmu.cs214.hw3.player.Worker;
 import edu.cmu.cs214.hw3.position.Direction;
 import edu.cmu.cs214.hw3.playground.Field;
 import edu.cmu.cs214.hw3.position.Location;
 import edu.cmu.cs214.hw3.player.Player;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class Game {
 
@@ -19,7 +17,8 @@ public class Game {
     private int round;
     private final List<Player> players;
     private Player currPlayer;
-    private final Board gameBoard;
+    private final Board board;
+    private final Map<Player, GameLogic> logics;
 
 
     public Game() {
@@ -31,18 +30,22 @@ public class Game {
         gameOver = false;
         round = 0;
         currPlayer = players.get(round);
-        gameBoard = new Board();
+        board = new Board();
+
+        logics = new HashMap<>();
+        logics.put(players.get(0), new BasicGameLogic());
+        logics.put(players.get(1), new BasicGameLogic());
     }
 
     public boolean addStartLocation(int playerIndex, int row, int col) {
         Player p = players.get(playerIndex);
-        if (isOccupied(new Location(row, col))) {
+        if (isOccupied(Location.get(row, col))) {
             System.out.println("Current Field is occupied");
             return false;
         }
-        boolean success = p.addWorker(new Location(row, col));
+        boolean success = p.addWorker(Location.get(row, col));
         if (success) {
-            occupy(new Location(row, col));
+            occupy(Location.get(row, col), p.getLastWorker());
         }
         return success;
 
@@ -54,49 +57,37 @@ public class Game {
         round++;
     }
 
-    public boolean moveWorker(int workerIndex, Direction dir) {
-        Location destination;
-        try {
-            destination = currPlayer.getDestination(workerIndex, dir);
-        } catch (IllegalArgumentException e) {
-            // worker index out of bound.
-            System.out.println(e.getMessage());
+    public boolean moveWorker(Player player, int workerIndex, Location destination) {
+        GameLogic currLogic = logics.get(player);
+        Location start = player.getWorkerLocation(workerIndex);
+        if (!currLogic.isValidMove(board, start, destination)) {
             return false;
         }
-        if (!isCoordOnBoard(destination)) {
-            System.out.println("destination is not on board.");
-            return false;
-        }
-        if (isOccupied(destination)) {
-            System.out.println("destination is already occupied.");
-            return false;
-        }
-        Location currLocation = currPlayer.getWorkerLocation(workerIndex);
-        if (!Field.isMovable(
-                gameBoard.getField(currLocation),
-                gameBoard.getField(destination))) {
-            System.out.println("destination is unreachable");
-            return false;
-        }
+        //todo move on from here. 10.19
         // before actually move the worker, change the inner state of field.
-        free(currLocation);
-        occupy(destination);
+        migrateWorker(start, destination);
+//        free(start);
+//        occupy(destination);
         System.out.println("dest: " + destination);
 
         // end game.
-        if (gameBoard.getField(destination).isBlockFull()) {
+        if (currLogic.isWinningCase(board, destination)) {
             gameOver = true;
         }
 
         // failsafe.
-        return currPlayer.moveWorker(workerIndex, dir);
+        return currPlayer.moveWorker(workerIndex, destination);
+    }
+
+    private void migrateWorker(Location start, Location destination) {
+        board.migrateWorker(start, destination);
     }
 
     public boolean build(int workerIndex, Direction dir) {
         // build action always follows the move, so no need to verify buildDestination (failsafe)
         Location buildDestination = currPlayer.getDestination(workerIndex, dir);
         System.out.println("buildDestination: " + buildDestination);
-        Field fieldToBuild = gameBoard.getField(buildDestination);
+        Field fieldToBuild = board.getField(buildDestination);
         if (fieldToBuild == null) {
             System.out.println("destination is not on board.");
             return false;
@@ -110,19 +101,16 @@ public class Game {
     }
 
     private boolean isOccupied(Location location) {
-        return gameBoard.getField(location).isOccupied();
+        return board.getField(location).isOccupied();
     }
 
-    private boolean isCoordOnBoard(Location location) {
-        return gameBoard.isCoordOnBoard(location);
-    }
 
-    private void occupy(Location location) {
-        gameBoard.getField(location).occupy();
+    private void occupy(Location location, Worker worker) {
+        board.getField(location).occupy(worker);
     }
 
     private void free(Location location) {
-        gameBoard.getField(location).free();
+        board.getField(location).free();
     }
 
     private String getCurrentPlayer() {

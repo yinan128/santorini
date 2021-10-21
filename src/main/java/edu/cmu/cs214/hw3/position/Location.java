@@ -1,15 +1,29 @@
 package edu.cmu.cs214.hw3.position;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Objects;
 
 public final class Location {
 
+    private static Map<Integer, Location> cache;
     private final int row;
     private final int col;
 
-    public Location(int row, int col) {
+    private Location(int row, int col) {
+        cache = new HashMap<>();
         this.row = row;
         this.col = col;
+    }
+
+    public static Location get(int row, int col) {
+        int hashCode = Objects.hash(row, col);
+        if (!cache.containsKey(hashCode)) {
+            Location result = new Location(row, col);
+            cache.put(hashCode, result);
+            return result;
+        }
+        return cache.get(hashCode);
     }
 
     public Location getRelativeLoc(Direction dir) {

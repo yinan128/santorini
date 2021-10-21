@@ -18,7 +18,7 @@ public class Board {
         this.fieldMap = new HashMap<>();
         for (int i = 0; i < ROWS; i++) {
             for (int j = 0; j < COLS; j++) {
-                fieldMap.put(new Location(i, j), new Field());
+                fieldMap.put(Location.get(i, j), new Field());
             }
         }
     }
@@ -29,5 +29,19 @@ public class Board {
 
     public boolean isCoordOnBoard(Location location) {
         return fieldMap.containsKey(location);
+    }
+
+    public boolean isFieldMaxHeight(Location location) {
+        return fieldMap.get(location).isBlockFull();
+    }
+
+    public boolean isFieldOccupied(Location destination) {
+        return fieldMap.get(destination).isOccupied();
+    }
+
+    public void migrateWorker(Location start, Location destination) {
+
+        fieldMap.get(destination).occupy(fieldMap.get(start).getWorker());
+        fieldMap.get(start).free();
     }
 }
