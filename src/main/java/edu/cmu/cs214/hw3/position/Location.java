@@ -1,17 +1,14 @@
 package edu.cmu.cs214.hw3.position;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Objects;
+import java.util.*;
 
 public final class Location {
 
-    private static Map<Integer, Location> cache;
+    private static final Map<Integer, Location> cache = new HashMap<>();
     private final int row;
     private final int col;
 
     private Location(int row, int col) {
-        cache = new HashMap<>();
         this.row = row;
         this.col = col;
     }
@@ -24,6 +21,20 @@ public final class Location {
             return result;
         }
         return cache.get(hashCode);
+    }
+
+    public List<Location> getPerimeter() {
+        List<Location> result = new ArrayList<>();
+        for (int i = -1; i <= 1; i++) {
+            for (int j = -1; j <= 1; j++) {
+                // exclude itself.
+                if (i == 0 && j == 0) {
+                    continue;
+                }
+                result.add(Location.get(row + i, col + j));
+            }
+        }
+        return result;
     }
 
     public Location getRelativeLoc(Direction dir) {

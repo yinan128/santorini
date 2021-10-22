@@ -4,8 +4,7 @@ import edu.cmu.cs214.hw3.player.Worker;
 import edu.cmu.cs214.hw3.playground.Field;
 import edu.cmu.cs214.hw3.position.Location;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 public class Board {
 
@@ -62,5 +61,33 @@ public class Board {
 
     public int deltaHeight(Location destination, Location start) {
         return fieldMap.get(destination).getHeight() - fieldMap.get(start).getHeight();
+    }
+
+
+    /**
+     * return the surrounding onboard locations from the given location.
+     * @param location the given location from which you want to find its surroundings.
+     * @return the surrounding onboard locations.
+     */
+    public List<Location> getLocationPerimeter(Location location) {
+        List<Location> nearbyLocations = location.getPerimeter();
+        List<Location> result = new ArrayList<>();
+        for (Location loc : nearbyLocations) {
+            if (!isCoordOnBoard(loc)) {
+                continue;
+            }
+            result.add(loc);
+        }
+        return result;
+    }
+
+    public boolean buildOn(Location location) {
+        return fieldMap.get(location).build();
+    }
+
+    public boolean placeWorker(Worker worker, Location location) {
+        if (fieldMap.get(location).isOccupied()) return false;
+        fieldMap.get(location).addWorker(worker);
+        return true;
     }
 }

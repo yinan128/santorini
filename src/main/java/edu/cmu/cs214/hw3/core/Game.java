@@ -1,8 +1,10 @@
 package edu.cmu.cs214.hw3.core;
 
+import edu.cmu.cs214.hw3.gameLogic.BasicGameLogic;
+import edu.cmu.cs214.hw3.gameLogic.GameLogic;
+import edu.cmu.cs214.hw3.listeners.EventListener;
+import edu.cmu.cs214.hw3.listeners.LogicManager;
 import edu.cmu.cs214.hw3.player.Worker;
-import edu.cmu.cs214.hw3.position.Direction;
-import edu.cmu.cs214.hw3.playground.Field;
 import edu.cmu.cs214.hw3.position.Location;
 import edu.cmu.cs214.hw3.player.Player;
 
@@ -17,6 +19,7 @@ public class Game {
     private int round;
     private final List<Player> players;
     private Player currPlayer;
+
     private final Board board;
     private final Map<Player, GameLogic> logics;
     private final EventListener gameLogicManager;
@@ -37,7 +40,7 @@ public class Game {
         logics.put(players.get(0), new BasicGameLogic());
         logics.put(players.get(1), new BasicGameLogic());
         gameLogicManager = new LogicManager(logics);
-        logics.values().forEach(l -> l.subscribe(gameLogicManager));
+        logics.values().forEach(logic -> logic.subscribe(gameLogicManager));
     }
 
     public boolean addStartLocation(int playerIndex, int row, int col) {
@@ -51,7 +54,12 @@ public class Game {
             occupy(Location.get(row, col), p.getLastWorker());
         }
         return success;
+    }
 
+    public boolean placeWorker(Player player, int workerIndex, Location location) {
+        GameLogic currPlayerLogic = logics.get(player);
+        Worker workerToPlace = player.getWorker(workerIndex);
+        return currPlayerLogic.placeWorker(board, workerToPlace, location);
     }
 
 
@@ -75,11 +83,9 @@ public class Game {
         }
 
         // movement is valid, apply actual move action.
-        boolean moveResult = currPlayerLogic.move(board, workerToMove, destination);
+        boolean moveSuccess = currPlayerLogic.move(board, workerToMove, destination);
         // move could fail.
-        if (!moveResult) {
-            return moveResult;
-        }
+        if (!moveSuccess) return false;
 
         System.out.println("Move success. Destination: " + destination);
 
@@ -91,18 +97,27 @@ public class Game {
         return true;
     }
 
-
-    public boolean build(int workerIndex, Direction dir) {
-        // build action always follows the move, so no need to verify buildDestination (failsafe)
-        Location buildDestination = currPlayer.getDestination(workerIndex, dir);
-        System.out.println("buildDestination: " + buildDestination);
-        Field fieldToBuild = board.getField(buildDestination);
-        if (fieldToBuild == null) {
-            System.out.println("destination is not on board.");
+    /**
+     * game command to make a worker build on a given location.
+     * @param player the owner of the worker to build.
+     * @param workerIndex the index of the selected worker in the worker list.
+     * @param location destination of the build action.
+     * @return true if build is successful, otherwise false.
+     */
+    public boolean build(Player player, int workerIndex, Location location) {
+        GameLogic currPlayerLogic = logics.get(player);
+        Worker workerToBuild = player.getWorker(workerIndex);
+        if (!currPlayerLogic.isBuildable(board, workerToBuild, location)) {
             return false;
         }
-        return fieldToBuild.build();
+
+        boolean buildSuccess = currPlayerLogic.build(board, location);
+        if (!buildSuccess) return false;
+
+        System.out.println("Build success. Destination: " + location);
+        return true;
     }
+
 
     public boolean isGameOver() {
         System.out.println("Winner is:" + getCurrentPlayer());
@@ -124,5 +139,33 @@ public class Game {
 
     private String getCurrentPlayer() {
         return currPlayer.toString();
+    }
+
+    public void printBoard() {
+        for (int i = 0; i < 5; i++) {
+            for (int j = 0; j < 5; j++) {
+                Location currLoc = Location.get(i, j);
+                if (board.getField(currLoc).hasWorker()){
+                    // print player.
+                    for (int q = 0; q < 2; q++) {
+                        Player currP = players.get(q);
+                        for (int w = 0; w < 2; w++) {
+                            if (currP.getWorkerLocation(w).equals(currLoc)) {
+                                System.out.print(currP.symbol());
+                            }
+                        }
+                    } // print player
+                } else {
+                    int lvl = board.getField(currLoc).getLevel();
+                    if (lvl == 0) {
+                        System.out.print("-");
+                    } else {
+                        System.out.print(lvl);
+                    }
+                }
+                System.out.print(" ");
+            }
+            System.out.println();
+        }
     }
 }

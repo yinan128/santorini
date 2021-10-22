@@ -1,5 +1,7 @@
-package edu.cmu.cs214.hw3.core;
+package edu.cmu.cs214.hw3.gameLogic;
 
+import edu.cmu.cs214.hw3.core.Board;
+import edu.cmu.cs214.hw3.listeners.EventListener;
 import edu.cmu.cs214.hw3.player.Player;
 import edu.cmu.cs214.hw3.player.Worker;
 import edu.cmu.cs214.hw3.playground.Field;
@@ -102,6 +104,18 @@ public class BasicGameLogic implements GameLogic {
     @Override
     public GameLogic getWrappee() {
         throw new UnsupportedOperationException();
+    }
+
+    /**
+     * the action to place the worker at a certain location at the start of game.
+     *
+     * @param worker   worker to be placed.
+     * @param location the location where the worker is to be placed.
+     * @return true if placement is successful.
+     */
+    @Override
+    public boolean placeWorker(Board board, Worker worker, Location location) {
+        return board.placeWorker(worker, location);
     }
 
     /**

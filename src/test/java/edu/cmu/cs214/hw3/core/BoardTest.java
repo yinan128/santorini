@@ -101,20 +101,20 @@ public class BoardTest {
 //        assertFalse(board.build(0, Direction.RIGHT));
 //    }
 
-    @Test
-    public void testBuildOnDomedBuilding() {
-        board.startRound();
-        for (int i = 0; i < 4; i++) {
-            assertTrue(board.build(0, Direction.RIGHT));
-        }
-        assertFalse(board.build(0, Direction.RIGHT));
-    }
-
-    @Test
-    public void testBuildOutOfBoard() {
-        board.startRound();
-        assertFalse(board.build(0, Direction.UP));
-    }
+//    @Test
+//    public void testBuildOnDomedBuilding() {
+//        board.startRound();
+//        for (int i = 0; i < 4; i++) {
+//            assertTrue(board.build(0, Direction.RIGHT));
+//        }
+//        assertFalse(board.build(0, Direction.RIGHT));
+//    }
+//
+//    @Test
+//    public void testBuildOutOfBoard() {
+//        board.startRound();
+//        assertFalse(board.build(0, Direction.UP));
+//    }
 
 
 

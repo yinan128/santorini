@@ -1,5 +1,6 @@
-package edu.cmu.cs214.hw3.core;
+package edu.cmu.cs214.hw3.listeners;
 
+import edu.cmu.cs214.hw3.gameLogic.GameLogic;
 import edu.cmu.cs214.hw3.player.Player;
 
 import java.util.Map;
