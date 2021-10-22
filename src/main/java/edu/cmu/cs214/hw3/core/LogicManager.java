@@ -1,2 +1,19 @@
-package edu.cmu.cs214.hw3.core;public class LogicManager {
+package edu.cmu.cs214.hw3.core;
+
+import edu.cmu.cs214.hw3.player.Player;
+
+import java.util.Map;
+
+public class LogicManager implements EventListener {
+
+    Map<Player, GameLogic> logics;
+
+    public LogicManager(Map<Player, GameLogic> logics) {
+        this.logics = logics;
+    }
+
+    @Override
+    public void castImpactAction(GameLogic gameLogic) {
+        gameLogic.castImplact(logics);
+    }
 }

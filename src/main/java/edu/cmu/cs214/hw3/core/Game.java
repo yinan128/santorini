@@ -19,6 +19,7 @@ public class Game {
     private Player currPlayer;
     private final Board board;
     private final Map<Player, GameLogic> logics;
+    private final EventListener gameLogicManager;
 
 
     public Game() {
@@ -35,6 +36,8 @@ public class Game {
         logics = new HashMap<>();
         logics.put(players.get(0), new BasicGameLogic());
         logics.put(players.get(1), new BasicGameLogic());
+        gameLogicManager = new LogicManager(logics);
+        logics.values().forEach(l -> l.subscribe(gameLogicManager));
     }
 
     public boolean addStartLocation(int playerIndex, int row, int col) {
@@ -57,31 +60,37 @@ public class Game {
         round++;
     }
 
+    /**
+     * game command to move a worker to a destination.
+     * @param player the owner of the worker to be moved.
+     * @param workerIndex the index of the selected worker in the worker list.
+     * @param destination destination of the movement.
+     * @return true if move is successful, otherwise false.
+     */
     public boolean moveWorker(Player player, int workerIndex, Location destination) {
-        GameLogic currLogic = logics.get(player);
-        Location start = player.getWorkerLocation(workerIndex);
-        if (!currLogic.isValidMove(board, start, destination)) {
+        GameLogic currPlayerLogic = logics.get(player);
+        Worker workerToMove = player.getWorker(workerIndex);
+        if (!currPlayerLogic.isValidMove(board, workerToMove, destination)) {
             return false;
         }
-        //todo move on from here. 10.19
-        // before actually move the worker, change the inner state of field.
-        migrateWorker(start, destination);
-//        free(start);
-//        occupy(destination);
-        System.out.println("dest: " + destination);
 
-        // end game.
-        if (currLogic.isWinningCase(board, destination)) {
+        // movement is valid, apply actual move action.
+        boolean moveResult = currPlayerLogic.move(board, workerToMove, destination);
+        // move could fail.
+        if (!moveResult) {
+            return moveResult;
+        }
+
+        System.out.println("Move success. Destination: " + destination);
+
+        // check winning case.
+        if (currPlayerLogic.isWinningCase(board, destination)) {
             gameOver = true;
         }
 
-        // failsafe.
-        return currPlayer.moveWorker(workerIndex, destination);
+        return true;
     }
 
-    private void migrateWorker(Location start, Location destination) {
-        board.migrateWorker(start, destination);
-    }
 
     public boolean build(int workerIndex, Direction dir) {
         // build action always follows the move, so no need to verify buildDestination (failsafe)

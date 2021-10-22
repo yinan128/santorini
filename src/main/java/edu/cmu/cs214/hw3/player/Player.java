@@ -21,15 +21,8 @@ public class Player {
         if (workers.size() == WORKER_NUM) {
             return false;
         }
-        workers.add(new Worker(location));
+        workers.add(new Worker(location, this));
         return true;
-    }
-
-    public boolean moveWorker(int workerIndex, Location destination) {
-        if (workerIndex > workers.size() - 1) {
-            throw new IllegalArgumentException("worker index out of bound");
-        }
-        return workers.get(workerIndex).moveTo(destination);
     }
 
     public Location getDestination(int workerIndex, Direction dir) {

@@ -1,24 +1,32 @@
 package edu.cmu.cs214.hw3.playground;
 
 import edu.cmu.cs214.hw3.player.Worker;
+import edu.cmu.cs214.hw3.position.Location;
+
+import java.util.LinkedList;
+import java.util.Queue;
 
 public class Field {
 
+    private Location location;
     private boolean hasWorker;
     private final Tower building;
     private Worker worker;
+    private Queue<Worker> workers;
 
     public static boolean isMovable(Field start, Field dest) {
         return dest.getHeight() - start.getHeight() <= 1;
     }
 
-    public Field(boolean hasWorker) {
+    public Field(Location location, boolean hasWorker) {
+        this.location = location;
         this.hasWorker = hasWorker;
         building = new Tower();
+        workers = new LinkedList<>();
     }
 
-    public Field() {
-        this(false);
+    public Field(Location location) {
+        this(location, false);
     }
 
     public void occupy(Worker worker) {
@@ -38,7 +46,11 @@ public class Field {
     }
 
     public boolean isOccupied() {
-        return !isBuildable() || hasWorker;
+        return workers.size() != 0;
+    }
+
+    public boolean hasDome() {
+        return !building.isBuildable();
     }
 
     public boolean isBlockFull() {
@@ -49,9 +61,10 @@ public class Field {
         return building.isBuildable();
     }
 
-    private int getHeight() {
+    public int getHeight() {
         return building.getHeight();
     }
+
 
     public boolean hasWorker() {
         return worker != null;
@@ -67,4 +80,17 @@ public class Field {
         }
         return worker;
     }
+
+    public void addWorker(Worker worker){
+        workers.add(worker.moveTo(this.location));
+    }
+
+    public Worker removeWorker() {
+        Worker workerToRemove = workers.poll();
+        if (workerToRemove == null) {
+            throw new IllegalStateException("No worker to remove.");
+        }
+        return workerToRemove;
+    }
+
 }

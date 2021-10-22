@@ -7,24 +7,30 @@ public class Worker {
 
     private Location location;
     private Worker prevState;
+    private Player player;
 
-    public Worker(Location location) {
+    public Worker(Location location, Player player) {
         this.location = location;
         prevState = null;
+        this.player = player;
     }
 
     public Worker(Location location, Worker prevState) {
         this.location = location;
         this.prevState = prevState;
+        this.player = prevState.player;
+    }
+
+    public static boolean fromSamePlayer(Worker workerOnField, Worker worker) {
+        return workerOnField.getPlayer() == worker.getPlayer();
+    }
+
+    private Player getPlayer() {
+        return player;
     }
 
 
-    public boolean moveTo(Location dest) {
-        location = dest;
-        return true;
-    }
-
-    public Worker moveToNew(Location dest) {
+    public Worker moveTo(Location dest) {
         return new Worker(dest, this);
     }
 
@@ -42,4 +48,9 @@ public class Worker {
     public Location getLocation() {
         return location;
     }
+
+    public Worker getPrevState() {
+        return prevState;
+    }
+
 }

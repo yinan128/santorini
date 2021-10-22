@@ -1,5 +1,6 @@
 package edu.cmu.cs214.hw3.core;
 
+import edu.cmu.cs214.hw3.player.Worker;
 import edu.cmu.cs214.hw3.playground.Field;
 import edu.cmu.cs214.hw3.position.Location;
 
@@ -18,7 +19,7 @@ public class Board {
         this.fieldMap = new HashMap<>();
         for (int i = 0; i < ROWS; i++) {
             for (int j = 0; j < COLS; j++) {
-                fieldMap.put(Location.get(i, j), new Field());
+                fieldMap.put(Location.get(i, j), new Field(Location.get(i, j)));
             }
         }
     }
@@ -31,7 +32,7 @@ public class Board {
         return fieldMap.containsKey(location);
     }
 
-    public boolean isFieldMaxHeight(Location location) {
+    public boolean isFieldBlockFull(Location location) {
         return fieldMap.get(location).isBlockFull();
     }
 
@@ -39,9 +40,27 @@ public class Board {
         return fieldMap.get(destination).isOccupied();
     }
 
-    public void migrateWorker(Location start, Location destination) {
 
-        fieldMap.get(destination).occupy(fieldMap.get(start).getWorker());
-        fieldMap.get(start).free();
+    /**
+     * Move the worker from the start Field to the destination Field
+     * @param start start location of the field
+     * @param destination destination location of the field
+     */
+    public void moveWorker(Location start, Location destination) {
+        Field startField = fieldMap.get(start);
+        Field destField = fieldMap.get(destination);
+        destField.addWorker(startField.removeWorker());
+    }
+
+    public Worker getWorkerOnField(Location location) {
+        return fieldMap.get(location).getWorker();
+    }
+
+    public boolean isFieldDomed(Location destination) {
+        return fieldMap.get(destination).hasDome();
+    }
+
+    public int deltaHeight(Location destination, Location start) {
+        return fieldMap.get(destination).getHeight() - fieldMap.get(start).getHeight();
     }
 }
