@@ -36,11 +36,39 @@ public interface GameLogic {
      */
     boolean isWinningCase(Board board, Location destination);
 
+    /**
+     * check if the given location is buildable
+     * @param board the board where the game is played.
+     * @param worker the construction worker.
+     * @param location building location
+     * @return true if tower block can be built on the given location.
+     */
+    boolean isBuildable(Board board, Worker worker, Location location);
+
+    /**
+     * the action to build on the given location by the worker.
+     * @param board the board where the game is played.
+     * @param location building location
+     * @return true if build is successful.
+     */
+    boolean build(Board board,  Location location);
+
+
+    /**
+     * subscribe a event listener.
+     * @param listener a new event listener.
+     */
     void subscribe(EventListener listener);
 
     List<EventListener> getEventListeners();
 
-    void castImplact(Map<Player, GameLogic> logics);
+    /**
+     * cast god power onto the game logic.
+     * @param logics the game logics for all players in the game.
+     */
+    void castImpact(Map<Player, GameLogic> logics);
 
     GameLogic getWrappee();
+
+
 }

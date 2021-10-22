@@ -20,22 +20,32 @@ public class AthenaGameLogic extends GameLogicDecorator {
     @Override
     public boolean move(Board board, Worker worker, Location destination) {
         boolean result = wrappee.move(board, worker, destination);
-        if (board.deltaHeight(destination, worker.getLocation()) > 0) {
+        if (result && board.deltaHeight(destination, worker.getLocation()) > 0) {
             // worker moved up.
             for (EventListener listener : listeners) {
                 listener.castImpactAction(this);
             }
         }
-        return true;
+        return result;
     }
 
     @Override
     public boolean isWinningCase(Board board, Location destination) {
-        return false;
+        return wrappee.isWinningCase(board, destination);
     }
 
     @Override
-    public void castImplact(Map<Player, GameLogic> logics) {
+    public boolean isBuildable(Board board, Worker worker, Location location) {
+        return wrappee.isBuildable(board, worker, location);
+    }
+
+    @Override
+    public boolean build(Board board, Location location) {
+        return wrappee.build(board, location);
+    }
+
+    @Override
+    public void castImpact(Map<Player, GameLogic> logics) {
         for (Map.Entry<Player, GameLogic> entry : logics.entrySet()) {
             if (entry.getValue() == this) {
                 continue;

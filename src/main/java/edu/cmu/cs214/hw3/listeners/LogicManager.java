@@ -14,6 +14,6 @@ public class LogicManager implements EventListener {
 
     @Override
     public void castImpactAction(GameLogic gameLogic) {
-        gameLogic.castImplact(logics);
+        gameLogic.castImpact(logics);
     }
 }

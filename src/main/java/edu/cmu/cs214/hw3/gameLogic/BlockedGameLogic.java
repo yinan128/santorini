@@ -36,7 +36,17 @@ public class BlockedGameLogic extends GameLogicDecorator {
     }
 
     @Override
-    public void castImplact(Map<Player, GameLogic> logics) {
+    public boolean isBuildable(Board board, Worker worker, Location location) {
+        return wrappee.isBuildable(board, worker, location);
+    }
+
+    @Override
+    public boolean build(Board board, Location location) {
+        return wrappee.build(board, location);
+    }
+
+    @Override
+    public void castImpact(Map<Player, GameLogic> logics) {
         // the impact after a successful move is to remove the decorator.
         for (Map.Entry<Player, GameLogic> entry : logics.entrySet()) {
             if (entry.getValue() == this) {

@@ -4,6 +4,7 @@ import edu.cmu.cs214.hw3.player.Worker;
 import edu.cmu.cs214.hw3.playground.Field;
 import edu.cmu.cs214.hw3.position.Location;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public abstract class GameLogicDecorator implements GameLogic {
@@ -14,10 +15,7 @@ public abstract class GameLogicDecorator implements GameLogic {
 
     public GameLogicDecorator(GameLogic gameLogic) {
         wrappee = gameLogic;
-        for (EventListener l : wrappee.getEventListeners()) {
-            subscribe(l);
-        }
-//        wrappee.getEventListeners().forEach(this::subscribe);
+        listeners = wrappee.getEventListeners();
     }
 
     @Override
@@ -28,6 +26,15 @@ public abstract class GameLogicDecorator implements GameLogic {
 
     @Override
     public abstract boolean isWinningCase(Board board, Location destination);
+
+    @Override
+    public abstract boolean isBuildable(Board board, Worker worker, Location location);
+
+    @Override
+    public abstract boolean build(Board board, Location location);
+
+
+
 
     @Override
     public void subscribe(EventListener listener) {
@@ -44,7 +51,14 @@ public abstract class GameLogicDecorator implements GameLogic {
         return wrappee;
     }
 
-    public boolean isCoordOnBoard(Board board, Location destination) {
+    public boolean isLocationOnPerimeter(Board board, Location start, Location destination) {
+        if (!board.getLocationPerimeter(start).contains(destination)) {
+            return false;
+        }
+        return true;
+    }
+
+    public boolean isLocationOnBoard(Board board, Location destination) {
         return board.isCoordOnBoard(destination);
     }
 

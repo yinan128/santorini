@@ -2,7 +2,6 @@ package edu.cmu.cs214.hw3.core;
 
 import edu.cmu.cs214.hw3.player.Player;
 import edu.cmu.cs214.hw3.player.Worker;
-import edu.cmu.cs214.hw3.playground.Field;
 import edu.cmu.cs214.hw3.position.Location;
 
 import java.util.Map;
@@ -23,7 +22,7 @@ public class MinotaurGameLogic extends GameLogicDecorator {
     @Override
     public boolean isValidMove(Board board, Worker worker, Location destination) {
         // For Minotaur, we still need basic validation on destination.
-        if (!isCoordOnBoard(board, destination)
+        if (!isLocationOnBoard(board, destination)
                 || isFieldDomed(board, destination)) {
             return false;
         }
@@ -65,7 +64,17 @@ public class MinotaurGameLogic extends GameLogicDecorator {
     }
 
     @Override
-    public void castImplact(Map<Player, GameLogic> logics) {
+    public boolean isBuildable(Board board, Worker worker, Location location) {
+        return wrappee.isBuildable(board, worker, location);
+    }
+
+    @Override
+    public boolean build(Board board, Location location) {
+        return wrappee.build(board, location);
+    }
+
+    @Override
+    public void castImpact(Map<Player, GameLogic> logics) {
     }
 
 }
