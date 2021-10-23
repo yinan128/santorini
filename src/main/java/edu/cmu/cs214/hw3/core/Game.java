@@ -43,22 +43,14 @@ public class Game {
         logics.values().forEach(logic -> logic.subscribe(gameLogicManager));
     }
 
-    public boolean addStartLocation(int playerIndex, int row, int col) {
-        Player p = players.get(playerIndex);
-        if (isOccupied(Location.get(row, col))) {
-            System.out.println("Current Field is occupied");
-            return false;
-        }
-        boolean success = p.addWorker(Location.get(row, col));
-        if (success) {
-            occupy(Location.get(row, col), p.getLastWorker());
-        }
-        return success;
+    public void assignGameLogic(Player player, GameLogic gameLogic) {
+        logics.put(player, gameLogic);
     }
 
-    public boolean placeWorker(Player player, int workerIndex, Location location) {
+    public boolean placeWorker(Player player, Location location) {
         GameLogic currPlayerLogic = logics.get(player);
-        Worker workerToPlace = player.getWorker(workerIndex);
+        Worker workerToPlace = new Worker(location, player);
+        if (player.workerFull()) return false;
         return currPlayerLogic.placeWorker(board, workerToPlace, location);
     }
 
@@ -124,19 +116,6 @@ public class Game {
         return gameOver;
     }
 
-    private boolean isOccupied(Location location) {
-        return board.getField(location).isOccupied();
-    }
-
-
-    private void occupy(Location location, Worker worker) {
-        board.getField(location).occupy(worker);
-    }
-
-    private void free(Location location) {
-        board.getField(location).free();
-    }
-
     private String getCurrentPlayer() {
         return currPlayer.toString();
     }
@@ -146,15 +125,7 @@ public class Game {
             for (int j = 0; j < 5; j++) {
                 Location currLoc = Location.get(i, j);
                 if (board.getField(currLoc).hasWorker()){
-                    // print player.
-                    for (int q = 0; q < 2; q++) {
-                        Player currP = players.get(q);
-                        for (int w = 0; w < 2; w++) {
-                            if (currP.getWorkerLocation(w).equals(currLoc)) {
-                                System.out.print(currP.symbol());
-                            }
-                        }
-                    } // print player
+                    System.out.print(board.getField(currLoc).getWorker().getPlayer().symbol());
                 } else {
                     int lvl = board.getField(currLoc).getLevel();
                     if (lvl == 0) {
@@ -167,5 +138,13 @@ public class Game {
             }
             System.out.println();
         }
+    }
+
+    public List<Player> getPlayers() {
+        return players;
+    }
+
+    public Board getBoard() {
+        return board;
     }
 }

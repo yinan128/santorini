@@ -10,15 +10,15 @@ public class BoardTest {
 
     private Game board;
 
-    @Before
-    public void setup() {
-        board = new Game();
-        // place workers at the corners.
-        board.addStartLocation(0, 0, 0);
-        board.addStartLocation(0, 4, 4);
-        board.addStartLocation(1, 0, 4);
-        board.addStartLocation(1, 4, 0);
-    }
+//    @Before
+//    public void setup() {
+//        board = new Game();
+//        // place workers at the corners.
+//        board.addStartLocation(0, 0, 0);
+//        board.addStartLocation(0, 4, 4);
+//        board.addStartLocation(1, 0, 4);
+//        board.addStartLocation(1, 4, 0);
+//    }
 
 //    @Test
 //    public void testMoveWorkerOutOfBoard() {

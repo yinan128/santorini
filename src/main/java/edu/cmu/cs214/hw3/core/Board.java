@@ -48,7 +48,7 @@ public class Board {
     public void moveWorker(Location start, Location destination) {
         Field startField = fieldMap.get(start);
         Field destField = fieldMap.get(destination);
-        destField.addWorker(startField.removeWorker());
+        destField.addMovedWorker(startField.removeWorker());
     }
 
     public Worker getWorkerOnField(Location location) {
@@ -87,7 +87,7 @@ public class Board {
 
     public boolean placeWorker(Worker worker, Location location) {
         if (fieldMap.get(location).isOccupied()) return false;
-        fieldMap.get(location).addWorker(worker);
+        fieldMap.get(location).setWorker(worker);
         return true;
     }
 }

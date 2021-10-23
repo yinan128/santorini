@@ -48,6 +48,10 @@ public class BasicGameLogic implements GameLogic {
     public boolean move(Board board, Worker worker, Location destination) {
         Location start = worker.getLocation();
         board.moveWorker(start, destination);
+        for (EventListener listener : listeners) {
+            listener.onMoveAction(board.getWorkerOnField(destination));
+        }
+//        listeners.forEach(listener -> listener.onMoveAction(board.getWorkerOnField(destination)));
         return true;
     }
 
@@ -66,6 +70,7 @@ public class BasicGameLogic implements GameLogic {
      */
     @Override
     public boolean isBuildable(Board board, Worker worker, Location location) {
+        System.out.println("worker loc:" + worker.getLocation());
         if (!isLocationOnPerimeter(board, worker.getLocation(), location)
                 || isFieldOccupied(board, location)
                 || isFieldDomed(board, location)) {
@@ -119,11 +124,11 @@ public class BasicGameLogic implements GameLogic {
     }
 
     /**
-     * check if location is on the surrounding.
-     * @param board 
-     * @param start
-     * @param location
-     * @return
+     * check if a given location is on the perimeter of the start location.
+     * @param board the board where the game is played.
+     * @param start the start location.
+     * @param location the location we want to know if it is on the perimeter of the start location.
+     * @return true if the location is on the perimeter of the start location.
      */
     private boolean isLocationOnPerimeter(Board board, Location start, Location location) {
         if (!board.getLocationPerimeter(start).contains(location)) {

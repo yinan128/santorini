@@ -25,7 +25,8 @@ public class Worker {
         return workerOnField.getPlayer() == worker.getPlayer();
     }
 
-    private Player getPlayer() {
+    // made public for test purpose.
+    public Player getPlayer() {
         return player;
     }
 

@@ -67,7 +67,7 @@ public class Field {
 
 
     public boolean hasWorker() {
-        return worker != null;
+        return workers.size() != 0;
     }
 
     public int getLevel() {
@@ -75,13 +75,10 @@ public class Field {
     }
 
     public Worker getWorker() {
-        if (worker == null) {
-            throw new IllegalStateException();
-        }
-        return worker;
+        return workers.peek();
     }
 
-    public void addWorker(Worker worker){
+    public void addMovedWorker(Worker worker){
         workers.add(worker.moveTo(this.location));
     }
 
@@ -93,4 +90,7 @@ public class Field {
         return workerToRemove;
     }
 
+    public void setWorker(Worker worker) {
+        workers.add(worker);
+    }
 }

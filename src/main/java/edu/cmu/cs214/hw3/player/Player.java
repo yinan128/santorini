@@ -9,32 +9,18 @@ import java.util.List;
 public class Player {
 
     static final int WORKER_NUM = 2;
-    private final List<Worker> workers;
     private final int playerNum;
+    private int currWorkerNum;
 
     public Player(int i) {
-        workers = new ArrayList<>();
         playerNum = i;
+        currWorkerNum = 0;
     }
 
-    public boolean addWorker(Location location) {
-        if (workers.size() == WORKER_NUM) {
-            return false;
-        }
-        workers.add(new Worker(location, this));
-        return true;
-    }
 
-    public Location getDestination(int workerIndex, Direction dir) {
-        if (workerIndex > workers.size() - 1) {
-            throw new IllegalArgumentException("worker index out of bound");
-        }
-        return workers.get(workerIndex).getDestination(dir);
-    }
-
-    public Location getWorkerLocation(int workerIndex) {
-        return workers.get(workerIndex).getLocation();
-    }
+//    public Location getWorkerLocation(int workerIndex) {
+//        return workers.get(workerIndex).getLocation();
+//    }
 
     @Override
     public String toString() {
@@ -53,12 +39,23 @@ public class Player {
         return "B";
     }
 
-    public Worker getWorker(int workerIndex) {
-        return workers.get(workerIndex);
+//    public Worker getWorker(int workerIndex) {
+//        return workers.get(workerIndex);
+//    }
+//
+//    public Worker initWorker(Location location) {
+//        return new Worker(location, this);
+//    }
+//
+    public boolean addWorker(Worker worker) {
+//        if (workers.size() == WORKER_NUM) return false;
+//        workers.add(worker);
+//        return true;
+        currWorkerNum++;
+        return true;
     }
 
-    public Worker getLastWorker() {
-        if (workers.size() == 0) return null;
-        return workers.get(workers.size() - 1);
+    public boolean workerFull() {
+        return currWorkerNum == WORKER_NUM;
     }
 }
