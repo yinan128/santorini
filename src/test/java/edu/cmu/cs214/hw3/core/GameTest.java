@@ -1,8 +1,6 @@
 package edu.cmu.cs214.hw3.core;
 
-import edu.cmu.cs214.hw3.gameLogic.AthenaGameLogic;
-import edu.cmu.cs214.hw3.gameLogic.BasicGameLogic;
-import edu.cmu.cs214.hw3.gameLogic.MinotaurGameLogic;
+import edu.cmu.cs214.hw3.gameLogic.*;
 import edu.cmu.cs214.hw3.player.Player;
 import edu.cmu.cs214.hw3.position.Location;
 
@@ -13,26 +11,80 @@ public class GameTest {
         Player player1 = game.getPlayers().get(0);
         Player player2 = game.getPlayers().get(1);
 
-        // Minotaur test
-        game.assignGameLogic(player2, new MinotaurGameLogic(new BasicGameLogic()));
-        game.placeWorker(player1, Location.get(0, 0));
-        game.placeWorker(player1, Location.get(4, 4));
-        game.placeWorker(player2, Location.get(4, 0));
-        game.placeWorker(player2, Location.get(0, 4));
-        game.printBoard();
+//        // Minotaur test
+//        game.assignGameLogic(player2, new MinotaurGameLogic(new BasicGameLogic()));
+//        game.placeWorker(player1, Location.get(0, 0));
+//        game.placeWorker(player1, Location.get(4, 4));
+//        game.placeWorker(player2, Location.get(4, 0));
+//        game.placeWorker(player2, Location.get(0, 4));
+//        game.printBoard();
+//
+//        game.moveWorker(player1, Location.get(0, 0), Location.get(1, 1));
+//        game.moveWorker(player2, Location.get(0, 4), Location.get(1, 4));
+//        game.printBoard();
+//        // move worker from (1,4) to (1,1). suppose worker in (1,1) move back to (0,0)
+//        game.moveWorker(player2, Location.get(1, 4), Location.get(1, 1));
+//        game.printBoard();
+//
+//        // oppo worker has no prev state, should fail
+//        System.out.println(game.moveWorker(player2, Location.get(1, 1), Location.get(0, 0)));
+//        game.printBoard();
 
-        game.moveWorker(player1, Location.get(0, 0), Location.get(1, 1));
-        game.moveWorker(player2, Location.get(0, 4), Location.get(1, 4));
-        game.printBoard();
-        // move worker from (1,4) to (1,1). suppose worker in (1,1) move back to (0,0)
-        game.moveWorker(player2, Location.get(1, 4), Location.get(1, 1));
-        game.printBoard();
 
-        // oppo worker has no prev state, should fail
-        System.out.println(game.moveWorker(player2, Location.get(1, 1), Location.get(0, 0)));
-        game.printBoard();
+//        // Apollo test.
+//        game.assignGameLogic(player2, new ApolloGameLogic(new BasicGameLogic()));
+//        game.placeWorker(player1, Location.get(0, 0));
+//        game.placeWorker(player1, Location.get(4, 4));
+//        game.placeWorker(player2, Location.get(4, 0));
+//        game.placeWorker(player2, Location.get(0, 4));
+//        game.printBoard();
+//
+//        game.moveWorker(player1, Location.get(0, 0), Location.get(1, 1));
+//        game.moveWorker(player2, Location.get(0, 4), Location.get(1, 4));
+//        game.printBoard();
+//
+//        // move worker from (1,4) to (1,1). suppose worker in (1,1) move back to (1,4)
+//        game.moveWorker(player2, Location.get(1, 4), Location.get(1, 1));
+//        game.printBoard();
+
+//        // Athena test.
+//        game.assignGameLogic(player2, new AthenaGameLogic(new BasicGameLogic()));
+//        game.placeWorker(player1, Location.get(0, 0));
+//        game.placeWorker(player1, Location.get(4, 4));
+//        game.placeWorker(player2, Location.get(4, 0));
+//        game.placeWorker(player2, Location.get(0, 4));
+//        game.printBoard();
+//
+//        // move up athena
+//        game.build(player2, Location.get(0,4), Location.get(0,3));
+//        game.moveWorker(player2, Location.get(0, 4), Location.get(0, 3));
+//        game.printBoard();
+//
+//        // move up opponent, should fail
+//        game.build(player1, Location.get(0, 0), Location.get(0,1));
+//        game.moveWorker(player1, Location.get(0, 0), Location.get(0, 1));
+//        game.printBoard();
 
 
+//        // Pan test.
+//        game.assignGameLogic(player2, new PanGameLogic(new BasicGameLogic()));
+//        game.placeWorker(player1, Location.get(0, 0));
+//        game.placeWorker(player1, Location.get(4, 4));
+//        game.placeWorker(player2, Location.get(4, 0));
+//        game.placeWorker(player2, Location.get(0, 4));
+//        game.printBoard();
+//
+//        // move the pan to level 2 tower.
+//        game.build(player2, Location.get(0,4), Location.get(0,3));
+//        game.build(player2, Location.get(0,4), Location.get(0,3));
+//        game.build(player2, Location.get(0,4), Location.get(1,4));
+//        game.moveWorker(player2, Location.get(0, 4), Location.get(1, 4));
+//        game.moveWorker(player2, Location.get(1, 4), Location.get(0, 3));
+//        game.printBoard();
+//
+//        // then move it down to flat.
+//        game.moveWorker(player2, Location.get(0, 3), Location.get(0, 2));
+//        game.printBoard();
 
 
     }
