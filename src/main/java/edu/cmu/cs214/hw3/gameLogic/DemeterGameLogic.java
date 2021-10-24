@@ -30,6 +30,7 @@ public class DemeterGameLogic extends GameLogicDecorator {
             lastBuild = null;
             return super.build(board, location);
         }
+        lastBuild = location;
         return super.forceBuild(board, location);
     }
 

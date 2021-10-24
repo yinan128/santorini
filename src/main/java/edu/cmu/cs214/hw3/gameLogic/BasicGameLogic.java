@@ -106,7 +106,7 @@ public class BasicGameLogic implements GameLogic {
     @Override
     public void skip() {
         // shouldn't be called.
-        throw new UnsupportedOperationException();
+        throw new UnsupportedOperationException("skip is not supported in basic game logic.");
     }
 
     @Override

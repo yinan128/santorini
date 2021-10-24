@@ -106,7 +106,7 @@ public class GameLogicDecorator implements GameLogic {
 
     @Override
     public boolean placeWorker(Board board, Worker worker, Location location) {
-        return board.placeWorker(worker, location);
+        return wrappee.placeWorker(board, worker, location);
     }
 
     @Override

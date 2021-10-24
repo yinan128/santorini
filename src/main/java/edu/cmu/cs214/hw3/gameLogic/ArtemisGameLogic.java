@@ -32,6 +32,7 @@ public class ArtemisGameLogic extends GameLogicDecorator {
             return super.move(board, start, destination);
         }
         // the first move won't update the game sequence since there is a second chance.
+        initialSpace = start;
         return super.forceMove(board, start, destination);
     }
 
