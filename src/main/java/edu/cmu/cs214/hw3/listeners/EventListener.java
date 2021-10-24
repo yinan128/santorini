@@ -11,5 +11,5 @@ public interface EventListener {
 
     void onBuildAction();
 
-    void onSkipAction();
+    void onNextActionEvent();
 }

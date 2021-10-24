@@ -28,7 +28,7 @@ public class LogicController implements EventListener {
     }
 
     @Override
-    public void onSkipAction() {
+    public void onNextActionEvent() {
     }
 
     @Override

@@ -36,16 +36,16 @@ public class SequenceHandler implements EventListener {
 
     @Override
     public void onMoveAction() {
-        proceed();
+
     }
 
     @Override
     public void onBuildAction() {
-        proceed();
+
     }
 
     @Override
-    public void onSkipAction() {
+    public void onNextActionEvent() {
         proceed();
     }
 
