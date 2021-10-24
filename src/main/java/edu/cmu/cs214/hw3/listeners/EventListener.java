@@ -7,5 +7,9 @@ public interface EventListener {
 
     void castImpactAction(GameLogic gameLogic);
 
-    void onMoveAction(Worker worker);
+    void onMoveAction();
+
+    void onBuildAction();
+
+    void onSkipAction();
 }
