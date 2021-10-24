@@ -20,16 +20,16 @@ public abstract class GameLogicDecorator implements GameLogic {
     }
 
     @Override
-    public abstract boolean isValidMove(Board board, Worker worker, Location destination);
+    public abstract boolean isValidMove(Board board, Location start, Location destination);
 
     @Override
-    public abstract boolean move(Board board, Worker worker, Location destination);
+    public abstract boolean move(Board board, Location start, Location destination);
 
     @Override
     public abstract boolean isWinningCase(Board board, Location destination);
 
     @Override
-    public abstract boolean isBuildable(Board board, Worker worker, Location location);
+    public abstract boolean isBuildable(Board board, Location start, Location location);
 
     @Override
     public abstract boolean build(Board board, Location location);
@@ -53,13 +53,6 @@ public abstract class GameLogicDecorator implements GameLogic {
     }
 
 
-    /**
-     * the action to place the worker at a certain location at the start of game.
-     *
-     * @param worker   worker to be placed.
-     * @param location the location where the worker is to be placed.
-     * @return true if placement is successful.
-     */
     @Override
     public boolean placeWorker(Board board, Worker worker, Location location) {
         return board.placeWorker(worker, location);
@@ -90,7 +83,8 @@ public abstract class GameLogicDecorator implements GameLogic {
         return board.isFieldDomed(destination);
     }
 
-    protected void forceMove(Board board, Worker worker, Location destination) {
-        board.moveWorker(worker.getLocation(), destination);
-    }
+
+//    protected void forceMove(Board board, Worker worker, Location destination) {
+//        board.moveWorker(worker.getLocation(), destination);
+//    }
 }

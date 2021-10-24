@@ -13,32 +13,26 @@ public class MinotaurGameLogic extends GameLogicDecorator {
         super(gameLogic);
     }
 
-    /**
-     * basic game logic to check if the move action is valid.
-     * @param board the board where movement happens.
-     * @param worker the worker to be moved.
-     * @param destination the destination of the movement.
-     * @return true if the move is valid.
-     */
+
     @Override
-    public boolean isValidMove(Board board, Worker worker, Location destination) {
+    public boolean isValidMove(Board board, Location start, Location destination) {
         // For Minotaur, we still need basic validation on destination.
         if (!isLocationOnBoard(board, destination)
                 || isFieldDomed(board, destination)) {
             return false;
         }
         if (!isFieldOccupied(board, destination)) {
-            return isDestReachable(board, worker.getLocation(), destination);
+            return isDestReachable(board, start, destination);
         }
         // check if the occupied worker has the same owner.
-        return !Worker.fromSamePlayer(board.getWorkerOnField(destination), worker);
+        return !Worker.fromSamePlayer(board.getWorkerOnField(destination), board.getWorkerOnField(start));
     }
 
     @Override
-    public boolean move(Board board, Worker worker, Location destination) {
+    public boolean move(Board board, Location start, Location destination) {
         // case 1: field empty
         if (!isFieldOccupied(board, destination)) {
-            return wrappee.move(board, worker, destination);
+            return wrappee.move(board, start, destination);
         }
 
         // case 2: field occupied
@@ -51,12 +45,12 @@ public class MinotaurGameLogic extends GameLogicDecorator {
             return false;
         }
         // force move the opponent worker to previous location.
-        wrappee.move(board, oppoWorker, prevState.getLocation());
+        wrappee.move(board, destination, prevState.getLocation());
         //todo which is better?
 //        forceMove(board, oppoWorker, prevState.getLocation());
 
         // move our worker to destination.
-        return wrappee.move(board, worker, destination);
+        return wrappee.move(board, start, destination);
     }
 
     @Override
@@ -65,8 +59,8 @@ public class MinotaurGameLogic extends GameLogicDecorator {
     }
 
     @Override
-    public boolean isBuildable(Board board, Worker worker, Location location) {
-        return wrappee.isBuildable(board, worker, location);
+    public boolean isBuildable(Board board, Location start, Location location) {
+        return wrappee.isBuildable(board, start, location);
     }
 
     @Override
@@ -78,4 +72,8 @@ public class MinotaurGameLogic extends GameLogicDecorator {
     public void castImpact(Map<Player, GameLogic> logics) {
     }
 
+    @Override
+    public String toString() {
+        return "minotaur logic";
+    }
 }

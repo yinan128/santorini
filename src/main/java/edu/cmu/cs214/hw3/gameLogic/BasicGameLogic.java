@@ -19,39 +19,23 @@ public class BasicGameLogic implements GameLogic {
         listeners = new ArrayList<>();
     }
 
-    /**
-     * basic game logic to check if the move action is valid.
-     * @param board the board where movement happens.
-     * @param worker the worker to be moved.
-     * @param destination the destination of the movement.
-     * @return true if the move is valid.
-     */
+
     @Override
-    public boolean isValidMove(Board board, Worker worker, Location destination) {
-        if (!isLocationOnPerimeter(board, worker.getLocation(), destination)
+    public boolean isValidMove(Board board, Location start, Location destination) {
+        if (!hasWorker(board, start)
+                || !isLocationOnPerimeter(board, start, destination)
                 || isFieldOccupied(board, destination)
                 || isFieldDomed(board, destination)
-                || !isDestReachable(board, worker.getLocation(), destination)) {
+                || !isDestReachable(board, start, destination)) {
             return false;
         }
         return true;
     }
 
-    /**
-     * the action to move the worker to a destination on board.
-     * @param board the board where movement happens.
-     * @param worker the worker to be moved.
-     * @param destination the destination of the movement.
-     * @return true if the move action is successful.
-     */
+
     @Override
-    public boolean move(Board board, Worker worker, Location destination) {
-        Location start = worker.getLocation();
+    public boolean move(Board board, Location start, Location destination) {
         board.moveWorker(start, destination);
-        for (EventListener listener : listeners) {
-            listener.onMoveAction(board.getWorkerOnField(destination));
-        }
-//        listeners.forEach(listener -> listener.onMoveAction(board.getWorkerOnField(destination)));
         return true;
     }
 
@@ -60,18 +44,11 @@ public class BasicGameLogic implements GameLogic {
         return board.isFieldBlockFull(destination);
     }
 
-    /**
-     * check if the given location is buildable
-     *
-     * @param board    the board where the game is played.
-     * @param worker   the construction worker.
-     * @param location building location
-     * @return true if tower block can be built on the given location.
-     */
+
     @Override
-    public boolean isBuildable(Board board, Worker worker, Location location) {
-        System.out.println("worker loc:" + worker.getLocation());
-        if (!isLocationOnPerimeter(board, worker.getLocation(), location)
+    public boolean isBuildable(Board board, Location start, Location location) {
+        if (!hasWorker(board, start)
+                || !isLocationOnPerimeter(board, start, location)
                 || isFieldOccupied(board, location)
                 || isFieldDomed(board, location)) {
             return false;
@@ -79,13 +56,7 @@ public class BasicGameLogic implements GameLogic {
         return true;
     }
 
-    /**
-     * the action to build on the given location by the worker.
-     *
-     * @param board         the board where the game is played.
-     * @param location      building location
-     * @return true if build is successful.
-     */
+
     @Override
     public boolean build(Board board, Location location) {
         return board.buildOn(location);
@@ -111,13 +82,7 @@ public class BasicGameLogic implements GameLogic {
         throw new UnsupportedOperationException();
     }
 
-    /**
-     * the action to place the worker at a certain location at the start of game.
-     *
-     * @param worker   worker to be placed.
-     * @param location the location where the worker is to be placed.
-     * @return true if placement is successful.
-     */
+
     @Override
     public boolean placeWorker(Board board, Worker worker, Location location) {
         return board.placeWorker(worker, location);
@@ -157,6 +122,12 @@ public class BasicGameLogic implements GameLogic {
         return board.isFieldDomed(destination);
     }
 
+    private boolean hasWorker(Board board, Location start) {
+        return board.hasWorker(start);
+    }
 
-
+    @Override
+    public String toString() {
+        return "basic game logic";
+    }
 }

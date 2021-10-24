@@ -1,11 +1,5 @@
 package edu.cmu.cs214.hw3.player;
 
-import edu.cmu.cs214.hw3.position.Direction;
-import edu.cmu.cs214.hw3.position.Location;
-
-import java.util.ArrayList;
-import java.util.List;
-
 public class Player {
 
     static final int WORKER_NUM = 2;
@@ -17,10 +11,6 @@ public class Player {
         currWorkerNum = 0;
     }
 
-
-//    public Location getWorkerLocation(int workerIndex) {
-//        return workers.get(workerIndex).getLocation();
-//    }
 
     @Override
     public String toString() {
@@ -39,20 +29,8 @@ public class Player {
         return "B";
     }
 
-//    public Worker getWorker(int workerIndex) {
-//        return workers.get(workerIndex);
-//    }
-//
-//    public Worker initWorker(Location location) {
-//        return new Worker(location, this);
-//    }
-//
-    public boolean addWorker(Worker worker) {
-//        if (workers.size() == WORKER_NUM) return false;
-//        workers.add(worker);
-//        return true;
+    public void addWorker() {
         currWorkerNum++;
-        return true;
     }
 
     public boolean workerFull() {

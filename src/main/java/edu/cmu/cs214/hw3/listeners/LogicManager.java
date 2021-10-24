@@ -23,4 +23,9 @@ public class LogicManager implements EventListener {
     public void onMoveAction(Worker worker) {
 
     }
+
+    @Override
+    public String toString() {
+        return "LogicManager";
+    }
 }

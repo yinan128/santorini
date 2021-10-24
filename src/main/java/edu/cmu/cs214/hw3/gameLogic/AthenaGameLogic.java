@@ -15,14 +15,14 @@ public class AthenaGameLogic extends GameLogicDecorator {
     }
 
     @Override
-    public boolean isValidMove(Board board, Worker worker, Location destination) {
-        return wrappee.isValidMove(board, worker, destination);
+    public boolean isValidMove(Board board, Location start, Location destination) {
+        return wrappee.isValidMove(board, start, destination);
     }
 
     @Override
-    public boolean move(Board board, Worker worker, Location destination) {
-        boolean result = wrappee.move(board, worker, destination);
-        if (result && board.deltaHeight(destination, worker.getLocation()) > 0) {
+    public boolean move(Board board, Location start, Location destination) {
+        boolean result = wrappee.move(board, start, destination);
+        if (result && board.deltaHeight(destination, start) > 0) {
             // worker moved up.
             for (EventListener listener : listeners) {
                 listener.castImpactAction(this);
@@ -37,8 +37,8 @@ public class AthenaGameLogic extends GameLogicDecorator {
     }
 
     @Override
-    public boolean isBuildable(Board board, Worker worker, Location location) {
-        return wrappee.isBuildable(board, worker, location);
+    public boolean isBuildable(Board board, Location start, Location location) {
+        return wrappee.isBuildable(board, start, location);
     }
 
     @Override
@@ -52,7 +52,13 @@ public class AthenaGameLogic extends GameLogicDecorator {
             if (entry.getValue() == this) {
                 continue;
             }
+            System.out.println(entry.getValue());
             logics.put(entry.getKey(), new BlockedGameLogic(entry.getValue()));
         }
+    }
+
+    @Override
+    public String toString() {
+        return "athena logic";
     }
 }

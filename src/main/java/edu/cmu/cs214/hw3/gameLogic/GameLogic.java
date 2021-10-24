@@ -15,20 +15,20 @@ public interface GameLogic {
     /**
      * game logic to check if the move action is valid.
      * @param board the board where movement happens.
-     * @param worker the worker to be moved.
+     * @param start the starting location which holds the worker to be moved.
      * @param destination the destination of the movement.
      * @return true if the move is valid.
      */
-    boolean isValidMove(Board board, Worker worker, Location destination);
+    boolean isValidMove(Board board, Location start, Location destination);
 
     /**
      * the action to move the worker to a destination on board.
      * @param board the board where movement happens.
-     * @param worker the worker to be moved.
+     * @param start the starting location which holds the worker to be moved.
      * @param destination the destination of the movement.
      * @return true if the move action is successful.
      */
-    boolean move(Board board, Worker worker, Location destination);
+    boolean move(Board board, Location start, Location destination);
 
     /**
      * check if the previous successful move leads to a winning case.
@@ -41,11 +41,11 @@ public interface GameLogic {
     /**
      * check if the given location is buildable
      * @param board the board where the game is played.
-     * @param worker the construction worker.
+     * @param start the starting location which holds the worker to build.
      * @param location building location
      * @return true if tower block can be built on the given location.
      */
-    boolean isBuildable(Board board, Worker worker, Location location);
+    boolean isBuildable(Board board, Location start, Location location);
 
     /**
      * the action to build on the given location by the worker.

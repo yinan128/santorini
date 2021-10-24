@@ -1,5 +1,6 @@
 package edu.cmu.cs214.hw3.core;
 
+import edu.cmu.cs214.hw3.player.Player;
 import edu.cmu.cs214.hw3.player.Worker;
 import edu.cmu.cs214.hw3.playground.Field;
 import edu.cmu.cs214.hw3.position.Location;
@@ -89,5 +90,13 @@ public class Board {
         if (fieldMap.get(location).isOccupied()) return false;
         fieldMap.get(location).setWorker(worker);
         return true;
+    }
+
+    public boolean hasWorker(Location start) {
+        return fieldMap.get(start).hasWorker();
+    }
+
+    public Player getWorkerOwner(Location start) {
+        return fieldMap.get(start).getWorkerOwner();
     }
 }

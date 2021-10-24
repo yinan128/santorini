@@ -14,17 +14,18 @@ public class BlockedGameLogic extends GameLogicDecorator {
     }
 
     @Override
-    public boolean isValidMove(Board board, Worker worker, Location destination) {
+    public boolean isValidMove(Board board, Location start, Location destination) {
         // additional check for move up action.
-        if (board.deltaHeight(destination, worker.getLocation()) > 0) {
+        if (board.deltaHeight(destination, start) > 0) {
+            System.out.println("cannot move up due to Athena power.");
             return false;
         }
-        return wrappee.isValidMove(board, worker, destination);
+        return wrappee.isValidMove(board, start, destination);
     }
 
     @Override
-    public boolean move(Board board, Worker worker, Location destination) {
-        boolean success =  wrappee.move(board, worker, destination);
+    public boolean move(Board board, Location start, Location destination) {
+        boolean success =  wrappee.move(board, start, destination);
         if (success) {
             listeners.forEach(l -> l.castImpactAction(this));
         }
@@ -37,8 +38,8 @@ public class BlockedGameLogic extends GameLogicDecorator {
     }
 
     @Override
-    public boolean isBuildable(Board board, Worker worker, Location location) {
-        return wrappee.isBuildable(board, worker, location);
+    public boolean isBuildable(Board board, Location start, Location location) {
+        return wrappee.isBuildable(board, start, location);
     }
 
     @Override
@@ -51,9 +52,15 @@ public class BlockedGameLogic extends GameLogicDecorator {
         // the impact after a successful move is to remove the decorator.
         for (Map.Entry<Player, GameLogic> entry : logics.entrySet()) {
             if (entry.getValue() == this) {
-                logics.put(entry.getKey(), entry.getValue().getWrappee());
+                GameLogic prevLogic = entry.getValue().getWrappee();
+                logics.put(entry.getKey(), prevLogic);
                 return;
             }
         }
+    }
+
+    @Override
+    public String toString() {
+        return "blocked logic -> " + getWrappee().toString();
     }
 }

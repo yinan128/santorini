@@ -1,5 +1,6 @@
 package edu.cmu.cs214.hw3.playground;
 
+import edu.cmu.cs214.hw3.player.Player;
 import edu.cmu.cs214.hw3.player.Worker;
 import edu.cmu.cs214.hw3.position.Location;
 
@@ -92,5 +93,9 @@ public class Field {
 
     public void setWorker(Worker worker) {
         workers.add(worker);
+    }
+
+    public Player getWorkerOwner() {
+        return getWorker().getPlayer();
     }
 }
