@@ -1,6 +1,7 @@
 package edu.cmu.cs214.hw3.core;
 
 import edu.cmu.cs214.hw3.gameLogic.*;
+import edu.cmu.cs214.hw3.listeners.LogicController;
 import edu.cmu.cs214.hw3.player.Player;
 import edu.cmu.cs214.hw3.position.Location;
 
@@ -87,6 +88,35 @@ public class GameTest {
 //        game.printBoard();
 
 
+        // test sequence handler.
+        game.assignGameLogic(player1, new ArtemisGameLogic(new BasicGameLogic()));
+        game.placeWorker(player1, Location.get(0, 0));
+        game.placeWorker(player1, Location.get(4, 4));
+        game.placeWorker(player2, Location.get(4, 0));
+        game.placeWorker(player2, Location.get(0, 4));
+        game.printBoard();
+
+        // round 1
+        // player 1 turn.
+        game.moveWorker(player1, Location.get(0, 0), Location.get(1, 0));
+        game.moveWorker(player1, Location.get(1, 0), Location.get(1, 1));
+        game.build(player1, Location.get(1, 1), Location.get(0, 0));
+        game.printBoard();
+        // player 2 turn.
+        game.moveWorker(player2, Location.get(4, 0), Location.get(4, 1));
+        game.build(player2, Location.get(4, 1), Location.get(4, 0));
+        game.printBoard();
+
+        // round 2
+        // player 1 turn.
+        game.moveWorker(player1, Location.get(1, 1), Location.get(1, 2));
+        game.skipAction(player1);
+        game.build(player1, Location.get(1, 2), Location.get(1, 1));
+        game.printBoard();
+        // player 2 turn.
+        game.moveWorker(player2, Location.get(4, 1), Location.get(3, 1));
+        game.build(player2, Location.get(3, 1), Location.get(4, 0));
+        game.printBoard();
     }
 
 }
