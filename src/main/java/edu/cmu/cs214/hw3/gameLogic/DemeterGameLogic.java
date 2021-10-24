@@ -3,6 +3,11 @@ package edu.cmu.cs214.hw3.gameLogic;
 import edu.cmu.cs214.hw3.core.Board;
 import edu.cmu.cs214.hw3.position.Location;
 
+/**
+ * Game logic of Demeter.
+ * Your Worker may build one additional time, but not on the same space.
+ * Skip is allowed.
+ */
 public class DemeterGameLogic extends GameLogicDecorator {
 
     private Location lastBuild = null;
@@ -22,14 +27,18 @@ public class DemeterGameLogic extends GameLogicDecorator {
     @Override
     public boolean build(Board board, Location location) {
         if (lastBuild != null) {
-            informOnBuildAction();
             lastBuild = null;
+            return super.build(board, location);
         }
-        return wrappee.build(board, location);
+        return super.forceBuild(board, location);
     }
 
     @Override
     public void skip() {
-        informOnSkipAction();
+        if (lastBuild == null) {
+            throw new IllegalStateException("You cannot skip on the first build.");
+        }
+        lastBuild = null;
+        informNextAction();
     }
 }

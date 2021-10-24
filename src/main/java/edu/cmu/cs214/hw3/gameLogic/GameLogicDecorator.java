@@ -13,12 +13,10 @@ import java.util.Map;
 public class GameLogicDecorator implements GameLogic {
 
     protected GameLogic wrappee;
-    protected List<EventListener> listeners;
 
 
     public GameLogicDecorator(GameLogic gameLogic) {
         wrappee = gameLogic;
-        listeners = wrappee.getEventListeners();
     }
 
     @Override
@@ -28,8 +26,22 @@ public class GameLogicDecorator implements GameLogic {
 
     @Override
     public boolean move(Board board, Location start, Location destination) {
-        informOnMoveAction();
         return wrappee.move(board, start, destination);
+    }
+
+    /**
+     * move the worker to a destination on board without updating game sequence
+     *
+     * @param board       the board where movement happens.
+     * @param start       the starting location which holds the worker to be moved.
+     * @param destination the destination of the movement.
+     * @return true if the move action is successful.
+     */
+    @Override
+    public boolean forceMove(Board board, Location start, Location destination) {
+        board.moveWorker(start, destination);
+        informOnMoveAction();
+        return true;
     }
 
     @Override
@@ -44,8 +56,20 @@ public class GameLogicDecorator implements GameLogic {
 
     @Override
     public boolean build(Board board, Location location) {
-        informOnBuildAction();
         return wrappee.build(board, location);
+    }
+
+    /**
+     * Build on the given location by the worker without updating the game sequence.
+     *
+     * @param board    the board where the game is played.
+     * @param location building location
+     * @return true if build is successful.
+     */
+    @Override
+    public boolean forceBuild(Board board, Location location) {
+        informOnBuildAction();
+        return board.buildOn(location);
     }
 
     @Override
@@ -56,12 +80,12 @@ public class GameLogicDecorator implements GameLogic {
 
     @Override
     public void subscribe(EventListener listener) {
-        listeners.add(listener);
+        wrappee.subscribe(listener);
     }
 
     @Override
     public List<EventListener> getEventListeners() {
-        return listeners;
+        return wrappee.getEventListeners();
     }
 
     /**
@@ -83,6 +107,21 @@ public class GameLogicDecorator implements GameLogic {
     @Override
     public boolean placeWorker(Board board, Worker worker, Location location) {
         return board.placeWorker(worker, location);
+    }
+
+    @Override
+    public void informOnMoveAction() {
+        wrappee.informOnMoveAction();
+    }
+
+    @Override
+    public void informOnBuildAction() {
+        wrappee.informOnBuildAction();
+    }
+
+    @Override
+    public void informNextAction() {
+        wrappee.informNextAction();
     }
 
     public boolean isLocationOnPerimeter(Board board, Location start, Location destination) {
@@ -110,22 +149,6 @@ public class GameLogicDecorator implements GameLogic {
         return board.isFieldDomed(destination);
     }
 
-    protected void informOnMoveAction() {
-        for (EventListener listener: listeners) {
-            listener.onMoveAction();
-        }
-    }
 
-    protected void informOnBuildAction() {
-        for (EventListener listener: listeners) {
-            listener.onBuildAction();
-        }
-    }
-
-    protected void informOnSkipAction() {
-        for (EventListener listener: listeners) {
-            listener.onSkipAction();
-        }
-    }
 
 }

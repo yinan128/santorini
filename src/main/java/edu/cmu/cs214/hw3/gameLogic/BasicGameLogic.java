@@ -43,7 +43,22 @@ public class BasicGameLogic implements GameLogic {
     public boolean move(Board board, Location start, Location destination) {
         board.moveWorker(start, destination);
         informOnMoveAction();
+        informNextAction();
         return true;
+    }
+
+    /**
+     * move the worker to a destination on board without updating game sequence
+     *
+     * @param board       the board where movement happens.
+     * @param start       the starting location which holds the worker to be moved.
+     * @param destination the destination of the movement.
+     * @return true if the move action is successful.
+     */
+    @Override
+    public boolean forceMove(Board board, Location start, Location destination) {
+        // shouldn't be called.
+        throw new UnsupportedOperationException("forceMove is not supported in basic game logic.");
     }
 
     @Override
@@ -67,7 +82,21 @@ public class BasicGameLogic implements GameLogic {
     @Override
     public boolean build(Board board, Location location) {
         informOnBuildAction();
+        informNextAction();
         return board.buildOn(location);
+    }
+
+    /**
+     * Build on the given location by the worker without updating the game sequence.
+     *
+     * @param board    the board where the game is played.
+     * @param location building location
+     * @return true if build is successful.
+     */
+    @Override
+    public boolean forceBuild(Board board, Location location) {
+        // shouldn't be called.
+        throw new UnsupportedOperationException("forceBuild is not supported in basic game logic.");
     }
 
     /**
@@ -76,6 +105,7 @@ public class BasicGameLogic implements GameLogic {
      */
     @Override
     public void skip() {
+        // shouldn't be called.
         throw new UnsupportedOperationException();
     }
 
@@ -91,6 +121,7 @@ public class BasicGameLogic implements GameLogic {
 
     @Override
     public void castImpact(Map<Player, GameLogic> logics) {
+        // shouldn't be called.
         throw new UnsupportedOperationException();
     }
 
@@ -143,15 +174,24 @@ public class BasicGameLogic implements GameLogic {
         return board.hasWorker(start);
     }
 
-    private void informOnMoveAction() {
+    @Override
+    public void informOnMoveAction() {
         for (EventListener listener: listeners) {
             listener.onMoveAction();
         }
     }
 
-    private void informOnBuildAction() {
+    @Override
+    public void informOnBuildAction() {
         for (EventListener listener: listeners) {
             listener.onBuildAction();
+        }
+    }
+
+    @Override
+    public void informNextAction() {
+        for (EventListener listener: listeners) {
+            listener.onNextActionEvent();
         }
     }
 

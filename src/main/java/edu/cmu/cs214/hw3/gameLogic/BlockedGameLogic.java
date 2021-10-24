@@ -19,14 +19,14 @@ public class BlockedGameLogic extends GameLogicDecorator {
             System.out.println("cannot move up due to Athena power.");
             return false;
         }
-        return wrappee.isValidMove(board, start, destination);
+        return super.isValidMove(board, start, destination);
     }
 
     @Override
     public boolean move(Board board, Location start, Location destination) {
-        boolean success =  wrappee.move(board, start, destination);
+        boolean success = super.move(board, start, destination);
         if (success) {
-            listeners.forEach(l -> l.castImpactAction(this));
+            getEventListeners().forEach(l -> l.castImpactAction(this));
             informOnMoveAction();
         }
         return success;

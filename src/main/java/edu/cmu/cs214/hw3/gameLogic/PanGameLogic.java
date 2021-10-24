@@ -19,7 +19,7 @@ public class PanGameLogic extends GameLogicDecorator {
 
     @Override
     public boolean isWinningCase(Board board, Location destination) {
-        if (wrappee.isWinningCase(board, destination)) return true;
+        if (super.isWinningCase(board, destination)) return true;
         // the player also wins if his worker moves down two or more levels.
         return Math.abs(board.workerLevelChange(destination)) > 1;
     }

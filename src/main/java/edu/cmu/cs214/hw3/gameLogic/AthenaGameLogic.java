@@ -21,13 +21,14 @@ public class AthenaGameLogic extends GameLogicDecorator {
 
     @Override
     public boolean move(Board board, Location start, Location destination) {
-        boolean result = wrappee.move(board, start, destination);
+        // sequence here is problematic since the wrappee.move has already changed the game sequence.
+        // But wrappee.move always return true.
+        boolean result = super.move(board, start, destination);
         if (result && board.deltaHeight(destination, start) > 0) {
             // worker moved up.
-            for (EventListener listener : listeners) {
+            for (EventListener listener : getEventListeners()) {
                 listener.castImpactAction(this);
             }
-            informOnMoveAction();
         }
         return result;
     }

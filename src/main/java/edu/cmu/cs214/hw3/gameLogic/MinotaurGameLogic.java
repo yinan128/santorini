@@ -37,10 +37,10 @@ public class MinotaurGameLogic extends GameLogicDecorator {
     public boolean move(Board board, Location start, Location destination) {
         // case 1: field empty
         if (!isFieldOccupied(board, destination)) {
-            return wrappee.move(board, start, destination);
+            return super.move(board, start, destination);
         }
 
-        // case 2: field occupied
+        // case 2: field occupied by opponent worker.
         // check if the opponent worker can move back to prevState.
         Worker oppoWorker = board.getWorkerOnField(destination);
         Worker prevState = oppoWorker.getPrevState();
@@ -50,11 +50,10 @@ public class MinotaurGameLogic extends GameLogicDecorator {
             return false;
         }
         // force move the opponent worker to previous location.
-        wrappee.move(board, destination, prevState.getLocation());
+        super.forceMove(board, destination, prevState.getLocation());
 
         // move our worker to destination.
-        informOnMoveAction();
-        return wrappee.move(board, start, destination);
+        return super.move(board, start, destination);
     }
 
 

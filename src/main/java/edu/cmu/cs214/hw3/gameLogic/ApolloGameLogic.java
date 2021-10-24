@@ -37,15 +37,14 @@ public class ApolloGameLogic extends GameLogicDecorator {
     public boolean move(Board board, Location start, Location destination) {
         // case 1: field empty
         if (!isFieldOccupied(board, destination)) {
-            return wrappee.move(board, start, destination);
+            return super.move(board, start, destination);
+//            return wrappee.move(board, start, destination);
         }
 
         // case 2: field occupied. Swap the location with the opponent worker.
         // 1.force move the opponent worker to our location.
-        wrappee.move(board, destination, start);
-        // update game sequence.
-        informOnMoveAction();
+        super.forceMove(board, destination, start);
         // 2.move our worker to destination.
-        return wrappee.move(board, start, destination);
+        return super.move(board, start, destination);
     }
 }

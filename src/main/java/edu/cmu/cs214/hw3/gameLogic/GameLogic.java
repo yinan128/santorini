@@ -33,6 +33,16 @@ public interface GameLogic {
      */
     boolean move(Board board, Location start, Location destination);
 
+
+    /**
+     * move the worker to a destination on board without updating game sequence
+     * @param board the board where movement happens.
+     * @param start the starting location which holds the worker to be moved.
+     * @param destination the destination of the movement.
+     * @return true if the move action is successful.
+     */
+    boolean forceMove(Board board, Location start, Location destination);
+
     /**
      * check if the previous successful move leads to a winning case.
      * @param board the board where movement happens.
@@ -57,6 +67,14 @@ public interface GameLogic {
      * @return true if build is successful.
      */
     boolean build(Board board,  Location location);
+
+    /**
+     * Build on the given location by the worker without updating the game sequence.
+     * @param board the board where the game is played.
+     * @param location building location
+     * @return true if build is successful.
+     */
+    boolean forceBuild(Board board,  Location location);
 
     /**
      * the action to skip an optional action.
@@ -87,4 +105,20 @@ public interface GameLogic {
      * @return true if placement is successful.
      */
     boolean placeWorker(Board board, Worker worker, Location location);
+
+    /**
+     * notify the event listeners of the move action.
+     */
+    void informOnMoveAction();
+
+    /**
+     * notify the event listeners of the build action.
+     */
+    void informOnBuildAction();
+
+    /**
+     * notify the event listeners of the currently finished action.
+     */
+    void informNextAction();
+
 }
