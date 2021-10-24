@@ -99,4 +99,13 @@ public class Board {
     public Player getWorkerOwner(Location start) {
         return fieldMap.get(start).getWorkerOwner();
     }
+
+    /**
+     * calculate the level change of the worker at the given location from his last movement.
+     * @param location the location of the worker
+     * @return level change, positive if worker moved up.
+     */
+    public int workerLevelChange(Location location) {
+        return deltaHeight(location, getWorkerOnField(location).getPrevState().getLocation());
+    }
 }

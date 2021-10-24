@@ -9,6 +9,9 @@ import edu.cmu.cs214.hw3.position.Location;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * Interface for game logic.
+ */
 public interface GameLogic {
 
 
@@ -55,6 +58,10 @@ public interface GameLogic {
      */
     boolean build(Board board,  Location location);
 
+    /**
+     * the action to skip an optional action.
+     */
+    void skip();
 
     /**
      * subscribe a event listener.

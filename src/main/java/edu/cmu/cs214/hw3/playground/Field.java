@@ -39,9 +39,6 @@ public class Field {
     }
 
     public boolean build() {
-        if (isOccupied()) {
-            return false;
-        }
         building.build();
         return true;
     }

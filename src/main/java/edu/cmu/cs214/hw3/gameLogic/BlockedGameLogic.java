@@ -2,7 +2,6 @@ package edu.cmu.cs214.hw3.gameLogic;
 
 import edu.cmu.cs214.hw3.core.Board;
 import edu.cmu.cs214.hw3.player.Player;
-import edu.cmu.cs214.hw3.player.Worker;
 import edu.cmu.cs214.hw3.position.Location;
 
 import java.util.Map;
@@ -28,23 +27,9 @@ public class BlockedGameLogic extends GameLogicDecorator {
         boolean success =  wrappee.move(board, start, destination);
         if (success) {
             listeners.forEach(l -> l.castImpactAction(this));
+            informOnMoveAction();
         }
         return success;
-    }
-
-    @Override
-    public boolean isWinningCase(Board board, Location destination) {
-        return wrappee.isWinningCase(board, destination);
-    }
-
-    @Override
-    public boolean isBuildable(Board board, Location start, Location location) {
-        return wrappee.isBuildable(board, start, location);
-    }
-
-    @Override
-    public boolean build(Board board, Location location) {
-        return wrappee.build(board, location);
     }
 
     @Override

@@ -3,7 +3,8 @@ package edu.cmu.cs214.hw3.core;
 import edu.cmu.cs214.hw3.gameLogic.BasicGameLogic;
 import edu.cmu.cs214.hw3.gameLogic.GameLogic;
 import edu.cmu.cs214.hw3.listeners.EventListener;
-import edu.cmu.cs214.hw3.listeners.LogicManager;
+import edu.cmu.cs214.hw3.listeners.LogicController;
+import edu.cmu.cs214.hw3.listeners.SequenceHandler;
 import edu.cmu.cs214.hw3.player.Worker;
 import edu.cmu.cs214.hw3.position.Location;
 import edu.cmu.cs214.hw3.player.Player;
@@ -23,7 +24,8 @@ public class Game {
 
     private final Board board;
     private final Map<Player, GameLogic> logics;
-    private final EventListener gameLogicManager;
+    private final EventListener gameLogicController;
+    private final SequenceHandler sequenceHandler;
 
 
     public Game() {
@@ -41,8 +43,12 @@ public class Game {
         logics = new HashMap<>();
         logics.put(players.get(0), new BasicGameLogic());
         logics.put(players.get(1), new BasicGameLogic());
-        gameLogicManager = new LogicManager(logics);
-        logics.values().forEach(logic -> logic.subscribe(gameLogicManager));
+        gameLogicController = new LogicController(logics);
+        sequenceHandler = new SequenceHandler(players);
+        logics.values().forEach(logic -> {
+            logic.subscribe(gameLogicController);
+            logic.subscribe(sequenceHandler);
+        });
     }
 
     public void assignGameLogic(Player player, GameLogic gameLogic) {
@@ -81,6 +87,7 @@ public class Game {
      * @return true if move is successful, otherwise false.
      */
     public boolean moveWorker(Player player, Location start, Location destination) {
+        if (!sequenceHandler.isValidAction(player, WorkerAction.MOVE)) return false;
         GameLogic currPlayerLogic = logics.get(player);
         if (!currPlayerLogic.isValidMove(board, start, destination) || !authorizedWorker(player, start)) {
             return false;
@@ -115,8 +122,9 @@ public class Game {
      * @return true if build is successful, otherwise false.
      */
     public boolean build(Player player, Location start, Location location) {
+        if (!sequenceHandler.isValidAction(player, WorkerAction.BUILD)) return false;
         GameLogic currPlayerLogic = logics.get(player);
-        if (!currPlayerLogic.isBuildable(board, start, location)) {
+        if (!currPlayerLogic.isBuildable(board, start, location) || !authorizedWorker(player, start)) {
             return false;
         }
 
@@ -127,9 +135,9 @@ public class Game {
         return true;
     }
 
-
-    private Player getCurrentPlayer() {
-        return currPlayer;
+    public void skipAction(Player player) {
+        GameLogic currPlayerLogic = logics.get(player);
+        currPlayerLogic.skip();
     }
 
     public void printBoard() {

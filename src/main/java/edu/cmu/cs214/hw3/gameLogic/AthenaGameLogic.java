@@ -3,21 +3,21 @@ package edu.cmu.cs214.hw3.gameLogic;
 import edu.cmu.cs214.hw3.core.Board;
 import edu.cmu.cs214.hw3.listeners.EventListener;
 import edu.cmu.cs214.hw3.player.Player;
-import edu.cmu.cs214.hw3.player.Worker;
 import edu.cmu.cs214.hw3.position.Location;
 
 import java.util.Map;
 
+/**
+ * The game logic of Athena
+ * During opponent’s turn: If one of your Workers moved up on your last turn,
+ * opponent Workers cannot move up this turn.
+ */
 public class AthenaGameLogic extends GameLogicDecorator {
 
     public AthenaGameLogic(GameLogic wrappee) {
         super(wrappee);
     }
 
-    @Override
-    public boolean isValidMove(Board board, Location start, Location destination) {
-        return wrappee.isValidMove(board, start, destination);
-    }
 
     @Override
     public boolean move(Board board, Location start, Location destination) {
@@ -27,23 +27,9 @@ public class AthenaGameLogic extends GameLogicDecorator {
             for (EventListener listener : listeners) {
                 listener.castImpactAction(this);
             }
+            informOnMoveAction();
         }
         return result;
-    }
-
-    @Override
-    public boolean isWinningCase(Board board, Location destination) {
-        return wrappee.isWinningCase(board, destination);
-    }
-
-    @Override
-    public boolean isBuildable(Board board, Location start, Location location) {
-        return wrappee.isBuildable(board, start, location);
-    }
-
-    @Override
-    public boolean build(Board board, Location location) {
-        return wrappee.build(board, location);
     }
 
     @Override

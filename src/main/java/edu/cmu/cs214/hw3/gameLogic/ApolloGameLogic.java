@@ -8,20 +8,20 @@ import edu.cmu.cs214.hw3.position.Location;
 import java.util.Map;
 
 /**
- * Game logic of Minotaur,
- * Your Worker may move into an opponent Worker’s space, if their Worker can be
- * forced one space straight backwards to an unoccupied space at any level.
+ * Game logic of Apollo.
+ * Your Worker may move into an opponent Worker’s space by forcing their Worker to
+ * the space yours just vacated.
  */
-public class MinotaurGameLogic extends GameLogicDecorator {
+public class ApolloGameLogic extends GameLogicDecorator {
 
-    public MinotaurGameLogic(GameLogic gameLogic) {
+    public ApolloGameLogic(GameLogic gameLogic) {
         super(gameLogic);
     }
 
 
     @Override
     public boolean isValidMove(Board board, Location start, Location destination) {
-        // For Minotaur, we still need basic validation on destination.
+        // For Apollo, we still need basic validation on destination.
         if (!isLocationOnBoard(board, destination)
                 || isFieldDomed(board, destination)) {
             return false;
@@ -40,26 +40,12 @@ public class MinotaurGameLogic extends GameLogicDecorator {
             return wrappee.move(board, start, destination);
         }
 
-        // case 2: field occupied
-        // check if the opponent worker can move back to prevState.
-        Worker oppoWorker = board.getWorkerOnField(destination);
-        Worker prevState = oppoWorker.getPrevState();
-        if (prevState == null
-                || isFieldOccupied(board, prevState.getLocation())
-                || isFieldDomed(board, prevState.getLocation())) {
-            return false;
-        }
-        // force move the opponent worker to previous location.
-        wrappee.move(board, destination, prevState.getLocation());
-
-        // move our worker to destination.
+        // case 2: field occupied. Swap the location with the opponent worker.
+        // 1.force move the opponent worker to our location.
+        wrappee.move(board, destination, start);
+        // update game sequence.
         informOnMoveAction();
+        // 2.move our worker to destination.
         return wrappee.move(board, start, destination);
-    }
-
-
-    @Override
-    public String toString() {
-        return "minotaur logic";
     }
 }

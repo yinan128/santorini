@@ -11,6 +11,12 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * Basic game logic.
+ * Player can move a worker to a surrounding field which is not built and not occupied.
+ * Player can let his worker build on the surrounding field which is not built and not occupied.
+ * Player wins if he moves his worker to a level 3 field.
+ */
 public class BasicGameLogic implements GameLogic {
 
     private final List<EventListener> listeners;
@@ -36,6 +42,7 @@ public class BasicGameLogic implements GameLogic {
     @Override
     public boolean move(Board board, Location start, Location destination) {
         board.moveWorker(start, destination);
+        informOnMoveAction();
         return true;
     }
 
@@ -59,7 +66,17 @@ public class BasicGameLogic implements GameLogic {
 
     @Override
     public boolean build(Board board, Location location) {
+        informOnBuildAction();
         return board.buildOn(location);
+    }
+
+    /**
+     * the action to skip an optional action.
+     * it is not allowed when it is a basic game logic
+     */
+    @Override
+    public void skip() {
+        throw new UnsupportedOperationException();
     }
 
     @Override
@@ -126,8 +143,23 @@ public class BasicGameLogic implements GameLogic {
         return board.hasWorker(start);
     }
 
+    private void informOnMoveAction() {
+        for (EventListener listener: listeners) {
+            listener.onMoveAction();
+        }
+    }
+
+    private void informOnBuildAction() {
+        for (EventListener listener: listeners) {
+            listener.onBuildAction();
+        }
+    }
+
     @Override
     public String toString() {
         return "basic game logic";
     }
+
+
+
 }
