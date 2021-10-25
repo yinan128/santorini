@@ -1,25 +1,22 @@
 #Justification
 <hr>
-As is shown in the object model diagram, Board is of the highest hierarchy in this game.
-It communicates with Player class and Field class.
+As is shown in the object model diagram, Game is the controller in this game.
+It communicates with Player, Board, GameLogic and EventListener.
 <br>
 
-The Board class stores the game status including round, all the players, current player, and the game board (as a map).
+
+
+At the beginning of the game, each player can choose at most one god card (can be zero).
+Then they need to place two workers per person onto the game board to their initial locations.
+The Game class takes care of the user input.
+There are 3 actions the player can perform after the game officially starts (workers are placed onto the initial locations), they are:
+* moveWorker - move the worker from start to destination.
+* build      - let the worker to build on a given location.
+* skipAction - pass an optional action.
+
 <br>
 
-When the actual player(s) starts the game, 
-s/he needs to pass parameters according to the instructions prompted in the console. 
-The Board class will take care of the user input. There are 3 outcomes for the input:
-* game proceeds -> switch round, player; update game board.
-* game over -> end game and announce the winner.
-* invalid user input -> ask user to pass parameters again until they are valid.
-
-According to the game rules, it seems that a field can hold zero or one worker but this
-relationship is not applied in object model diagram to decouple those two classes from different branches.
-So the responsibility is passed to the Board class to identify if a field is occupied by a worker.
-<br>
-
-Some enums are created for the "building components" and "directions" so that it will be easier 
+Some enums are created for the "building components", "worker action", so that it will be easier 
 to check invalid parameters at compile time.
 
 
@@ -27,32 +24,60 @@ to check invalid parameters at compile time.
 <hr>
 
 ####1. Who checks whether a move/build is valid?
-The Field class checks a valid move since it stores the variables __hasWorker__ indicating whether 
-it holds a worker and __hasDome__ indicating if it is domed. Furthermore, it includes a static 
-method to compare the building height of two fields to suggest if next move is feasible.
-The Tower class check a valid build action since it stores the current __level__ of a tower.
+The GameLogic class checks a valid move and build but most of the basic check responsibilities are delegated to the Board class since it stores the Field.
+
+In some special cases, for example, when a god card is assigned to a player, 
+corresponding GameLogic related to that god card will do some extra checks according to the description of the god card.
 
 
 ####2. Who performs state updates for move/build?
 After a valid move, 
-The moved worker will update its __location__.
-The previous field and current field will update __hasWorker__.
-The board may update __gameOver__ if the recent move reaches the top of a 3-block-high tower.
-<br>
+The Field class will change its state according to the last move action, mainly its __workers__.
+The Worker class will update its state, mainly its __location__.
+The board may update its __winner__ if the recent move has generated a winner.
+The GameLogic will inform the EventListeners to update their state.
+
 After a successful build action, 
-The field may update __hasDome__ if a dome is built.
-The tower will update its __level__ and __construction__.
+The Field may update __hasDome__ if a dome is built.
+The Tower will update its __level__ and __construction__.
+The GameLogic will inform the EventListeners to update their state.
 
 ####3. Who checks whether the game is over and who the winner is?
 The Board class does. After a successful move, the board will check if the destination field has a 3-block-high
-tower. If it does, then game is over and the __currentPlayer__ is the winner.
+tower. If it does, then game is over and the last __player__ who performed the move action is the winner.
 
-####4. Is unnecessary coupling avoided?
-Field class and Worker class are decoupled although they seem to be tightly connected 
-in the game rules.
-
-####5. Is unnecessary complexity avoided?
-Block and Dome are included in an enum named Component. So are the 8 directions in an enum named Direction.
+####4. Is unnecessary complexity avoided?
+Block and Dome are included in enum Component.
 They should be constants and do not need to be instantiated every time when they are needed.
 
+##Extensibility
+<hr>
+1) GameLogic interface is created to handle the user input such as move and build and it will give back corresponding consequences.
+We can create new class implementing GameLogic interface to act as a unique game logic. 
+In this game, since each god card represents a unique game logic, 
+we can introduce or invent more god cards by creating new classes without changing the main content of the game.
 
+One alternative for this is:
+1) create an enum containing all the listed god cards. 
+2) let the Player contain a field of such enum to identify what god card he has chosen. 
+3) In Player's move and build method, use switch case to make corresponding actions.
+
+The problem for this is: 
+1) you may need to keep additional fields to record the state; 
+2) your code will be tedious and full of duplication;
+3) introducing new god cards requires making a lot of changes in code, although it's not the major problem.
+
+
+
+##Design patterns
+<hr>
+
+1) Decorator pattern is used for the GameLogic interface. 
+The god cards are not introducing a totally new game logic, they just change some behaviors based on the basic game logic.
+In this case, it is convenient to let the god card decorate the basic game logic and only change certain part of its functionality.
+
+
+2) Observer pattern is used to monitor the player actions such as move, build and skip. 
+The SequenceHandler and GameLogicController used this pattern because they need event updates from the game to change its state.
+For example, sequenceHandler need to decide which action is available in the next turn; GameLogicController need to know whether the god card has changed the game rule.
+The observer pattern will also be necessary when GUI is implemented in this program since the view need to update every time when player makes a valid action.
