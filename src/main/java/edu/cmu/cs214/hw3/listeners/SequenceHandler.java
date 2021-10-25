@@ -1,18 +1,21 @@
 package edu.cmu.cs214.hw3.listeners;
 
-import edu.cmu.cs214.hw3.core.GameAction;
-import edu.cmu.cs214.hw3.core.WorkerAction;
 import edu.cmu.cs214.hw3.gameLogic.GameLogic;
-import edu.cmu.cs214.hw3.listeners.EventListener;
 import edu.cmu.cs214.hw3.player.Player;
-import edu.cmu.cs214.hw3.player.Worker;
 
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * A class to handle the action sequence in the game.
+ */
 public class SequenceHandler implements EventListener {
 
     private List<GameAction> actions;
+
+    /**
+     * pointer to the current valid action.
+     */
     private int currAction;
 
     public SequenceHandler(List<Player> players) {
@@ -44,6 +47,9 @@ public class SequenceHandler implements EventListener {
 
     }
 
+    /**
+     * proceed to the next action.
+     */
     @Override
     public void onNextActionEvent() {
         proceed();

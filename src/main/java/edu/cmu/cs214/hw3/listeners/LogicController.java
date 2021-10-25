@@ -6,6 +6,9 @@ import edu.cmu.cs214.hw3.player.Worker;
 
 import java.util.Map;
 
+/**
+ * Controller of the game logics of all the players in the current game.
+ */
 public class LogicController implements EventListener {
 
     Map<Player, GameLogic> logics;
@@ -14,6 +17,10 @@ public class LogicController implements EventListener {
         this.logics = logics;
     }
 
+    /**
+     * let the game logic which sent the notification to modify the game rules.
+     * @param gameLogic the game logic which send the event notification.
+     */
     @Override
     public void castImpactAction(GameLogic gameLogic) {
         gameLogic.castImpact(logics);

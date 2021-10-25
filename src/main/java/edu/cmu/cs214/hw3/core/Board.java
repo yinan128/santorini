@@ -3,10 +3,13 @@ package edu.cmu.cs214.hw3.core;
 import edu.cmu.cs214.hw3.player.Player;
 import edu.cmu.cs214.hw3.player.Worker;
 import edu.cmu.cs214.hw3.playground.Field;
-import edu.cmu.cs214.hw3.position.Location;
+import edu.cmu.cs214.hw3.util.Location;
 
 import java.util.*;
 
+/**
+ * The board in the game.
+ */
 public class Board {
 
     private static final int COLS = 5;
@@ -28,16 +31,32 @@ public class Board {
         return fieldMap.get(location);
     }
 
+    /**
+     * Identify if the location is on the board.
+     * @param location the to-be-identified location.
+     * @return true if the location is on the board.
+     */
     public boolean isCoordOnBoard(Location location) {
         return fieldMap.containsKey(location);
     }
 
+    /**
+     * Identify if the designated location has a tower with max blocks it can contain.
+     * This method is to check if the player can end the game.
+     * @param location the designated location
+     * @return true if the location has max blocks.
+     */
     public boolean isFieldBlockFull(Location location) {
         return fieldMap.get(location).isBlockFull();
     }
 
-    public boolean isFieldOccupied(Location destination) {
-        return fieldMap.get(destination).isOccupied();
+    /**
+     * Identify if the designated field is occupied by a worker.
+     * @param location the location of the designated field.
+     * @return true if the field is occupied.
+     */
+    public boolean isFieldOccupied(Location location) {
+        return fieldMap.get(location).isOccupied();
     }
 
 
@@ -52,14 +71,30 @@ public class Board {
         destField.addMovedWorker(startField.removeWorker());
     }
 
+    /**
+     * Getter of the worker on the designated field.
+     * @param location the location of the designated field.
+     * @return the worker on the field (could be null but should not happen)
+     */
     public Worker getWorkerOnField(Location location) {
         return fieldMap.get(location).getWorker();
     }
 
+    /**
+     * Identify if the given location has a tower with dome.
+     * @param destination the given location
+     * @return true if the location has a tower with dome.
+     */
     public boolean isFieldDomed(Location destination) {
         return fieldMap.get(destination).hasDome();
     }
 
+    /**
+     * to calculate the height difference between the towers on two locations.
+     * @param destination the location of one tower.
+     * @param start the location of another tower.
+     * @return height difference of two towers.
+     */
     public int deltaHeight(Location destination, Location start) {
         return fieldMap.get(destination).getHeight() - fieldMap.get(start).getHeight();
     }
@@ -82,20 +117,34 @@ public class Board {
         return result;
     }
 
+    /**
+     * Action to make a build action on the given location.
+     * @param location a given location we want to perform a build.
+     * @return true if build is successful.
+     */
     public boolean buildOn(Location location) {
         return fieldMap.get(location).build();
     }
 
+    /**
+     * Method to place the worker onto the given location.
+     * This method should only be used at the start of the game to set the worker locations.
+     * @param worker the worker to be placed.
+     * @param location the location for the worker.
+     * @return true if placement is successful.
+     */
     public boolean placeWorker(Worker worker, Location location) {
         if (fieldMap.get(location).isOccupied()) return false;
         fieldMap.get(location).setWorker(worker);
         return true;
     }
 
-    public boolean hasWorker(Location start) {
-        return fieldMap.get(start).hasWorker();
-    }
 
+    /**
+     * Getter for the owner of the player on the given location.
+     * @param start the given location contain a worker.
+     * @return the owner of the worker.
+     */
     public Player getWorkerOwner(Location start) {
         return fieldMap.get(start).getWorkerOwner();
     }
@@ -109,10 +158,19 @@ public class Board {
         return deltaHeight(location, getWorkerOnField(location).getPrevState().getLocation());
     }
 
+    /**
+     * action to build a dome on the given location disregarding its number of blocks.
+     * @param location the given location we want to build a dome.
+     * @return true if build is successful.
+     */
     public boolean buildDome(Location location) {
         return fieldMap.get(location).buildDome();
     }
 
+    /**
+     * to remove one block from the given location.
+     * @param location the given location we want to remove one block from.
+     */
     public void removeOneBlock(Location location) {
         fieldMap.get(location).removeOneBlock();
     }

@@ -1,5 +1,7 @@
 package edu.cmu.cs214.hw3.playground;
 
+import edu.cmu.cs214.hw3.util.BuildingComponent;
+
 import java.util.HashMap;
 import java.util.Map;
 

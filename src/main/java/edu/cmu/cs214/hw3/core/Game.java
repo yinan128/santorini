@@ -6,20 +6,21 @@ import edu.cmu.cs214.hw3.listeners.EventListener;
 import edu.cmu.cs214.hw3.listeners.LogicController;
 import edu.cmu.cs214.hw3.listeners.SequenceHandler;
 import edu.cmu.cs214.hw3.player.Worker;
-import edu.cmu.cs214.hw3.position.Location;
+import edu.cmu.cs214.hw3.util.Location;
 import edu.cmu.cs214.hw3.player.Player;
+import edu.cmu.cs214.hw3.listeners.WorkerAction;
 
 import java.util.*;
 
+/**
+ * Game controller.
+ */
 public class Game {
 
 
     private static final int PLAYER_NUM = 2;
 
-    private boolean gameOver;
-    private int round;
     private final List<Player> players;
-    private Player currPlayer;
     private Player winner;
 
     private final Board board;
@@ -34,9 +35,6 @@ public class Game {
             players.add(new Player(i));
         }
 
-        gameOver = false;
-        round = 0;
-        currPlayer = players.get(round);
         winner = null;
         board = new Board();
 
@@ -51,6 +49,11 @@ public class Game {
         });
     }
 
+    /**
+     * method to assign an advanced game logic to the designated player
+     * @param player the player to be assigned the game logic.
+     * @param gameLogic an advanced game logic.
+     */
     public void assignGameLogic(Player player, GameLogic gameLogic) {
         GameLogic prevLogic = logics.get(player);
         prevLogic.getEventListeners().forEach(gameLogic::subscribe);
@@ -73,11 +76,6 @@ public class Game {
         return true;
     }
 
-
-    public void startRound() {
-        currPlayer = players.get(round % PLAYER_NUM);
-        round++;
-    }
 
     /**
      * game command to move a worker to a destination.
@@ -105,7 +103,6 @@ public class Game {
 
         // check winning case.
         if (currPlayerLogic.isWinningCase(board, destination)) {
-            gameOver = true;
             winner = player;
             System.out.println("Game over. Winner is " + winner.toString());
         }
@@ -113,6 +110,12 @@ public class Game {
         return true;
     }
 
+    /**
+     * helper method to identify if the worker on the selected start location belongs to the player.
+     * @param player the player we want to know if he's the owner.
+     * @param start the location holding the worker.
+     * @return true if the worker belongs to the player.
+     */
     private boolean authorizedWorker(Player player, Location start) {
         return player == board.getWorkerOwner(start);
     }
@@ -141,22 +144,31 @@ public class Game {
         return true;
     }
 
+    /**
+     * skip the current action which is optional to the player.
+     * the action could be move or build, according to the god card the player holds.
+     * @param player the player performs the skip action.
+     */
     public void skipAction(Player player) {
         GameLogic currPlayerLogic = logics.get(player);
         currPlayerLogic.skip();
     }
 
+    /**
+     * print the board.
+     * for test purpose only.
+     */
     public void printBoard() {
         for (int i = 0; i < 5; i++) {
             for (int j = 0; j < 5; j++) {
                 Location currLoc = Location.get(i, j);
-                if (board.getField(currLoc).hasWorker()){
+                if (board.getField(currLoc).isOccupied()){
                     System.out.print(board.getField(currLoc).getWorker().getPlayer().symbol());
                 } else {
                     if (board.getField(currLoc).hasDome()) {
                         System.out.print("X");
                     } else {
-                        int lvl = board.getField(currLoc).getLevel();
+                        int lvl = board.getField(currLoc).getHeight();
                         if (lvl == 0) {
                             System.out.print("-");
                         } else {
@@ -170,16 +182,12 @@ public class Game {
         }
     }
 
+
     public List<Player> getPlayers() {
         return players;
     }
 
     public Board getBoard() {
         return board;
-    }
-
-
-    public Map<Player, GameLogic> getLogics() {
-        return logics;
     }
 }
