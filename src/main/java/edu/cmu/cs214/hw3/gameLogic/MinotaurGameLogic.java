@@ -26,18 +26,10 @@ public class MinotaurGameLogic extends GameLogicDecorator {
         if (!isFieldOccupied(board, destination)) {
             return isDestReachable(board, start, destination);
         }
-        // check if the occupied worker has the same owner.
-        return !Worker.fromSamePlayer(board.getWorkerOnField(destination), board.getWorkerOnField(start));
-    }
-
-    @Override
-    public boolean move(Board board, Location start, Location destination) {
-        // case 1: field empty
-        if (!isFieldOccupied(board, destination)) {
-            return super.move(board, start, destination);
+        // check if the occupied worker belongs to the same owner.
+        if (!Worker.fromSamePlayer(board.getWorkerOnField(destination), board.getWorkerOnField(start))) {
+            return false;
         }
-
-        // case 2: field occupied by opponent worker.
         // check if the opponent worker can move back to prevState.
         Worker oppoWorker = board.getWorkerOnField(destination);
         Worker prevState = oppoWorker.getPrevState();
@@ -46,11 +38,38 @@ public class MinotaurGameLogic extends GameLogicDecorator {
                 || isFieldDomed(board, prevState.getLocation())) {
             return false;
         }
-        // force move the opponent worker to previous location.
-        super.forceMove(board, destination, prevState.getLocation());
+        return true;
+    }
+
+    @Override
+    public boolean move(Board board, Location start, Location destination) {
+//        // case 1: field empty
+//        if (!isFieldOccupied(board, destination)) {
+//            return super.move(board, start, destination);
+//        }
+//
+//        // case 2: field occupied by opponent worker.
+//        Worker oppoWorker = board.getWorkerOnField(destination);
+//        Worker prevState = oppoWorker.getPrevState();
+//
+//        // force move the opponent worker to previous location.
+//        super.forceMove(board, destination, prevState.getLocation());
+//
+//        // move our worker to destination.
+//        return super.move(board, start, destination);
+
+        if (isFieldOccupied(board, destination)) {
+            Worker oppoWorker = board.getWorkerOnField(destination);
+            Worker prevState = oppoWorker.getPrevState();
+
+            // force move the opponent worker to previous location.
+            super.forceMove(board, destination, prevState.getLocation());
+        }
 
         // move our worker to destination.
         return super.move(board, start, destination);
+
+
     }
 
 
