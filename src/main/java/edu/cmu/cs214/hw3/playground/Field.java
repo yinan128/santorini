@@ -48,7 +48,7 @@ public class Field {
     }
 
     public boolean hasDome() {
-        return !building.isBuildable();
+        return building.hasDome();
     }
 
     public boolean isBlockFull() {
@@ -94,5 +94,13 @@ public class Field {
 
     public Player getWorkerOwner() {
         return getWorker().getPlayer();
+    }
+
+    public boolean buildDome() {
+        return building.buildDome();
+    }
+
+    public void removeOneBlock() {
+        building.removeOneBlock();
     }
 }

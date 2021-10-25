@@ -88,7 +88,7 @@ public class Game {
      */
     public boolean moveWorker(Player player, Location start, Location destination) {
         if (!sequenceHandler.isValidAction(player, WorkerAction.MOVE)) {
-            System.out.println("invalid action.");
+            System.out.println("invalid move action.");
             return false;
         }
         GameLogic currPlayerLogic = logics.get(player);
@@ -126,7 +126,7 @@ public class Game {
      */
     public boolean build(Player player, Location start, Location location) {
         if (!sequenceHandler.isValidAction(player, WorkerAction.BUILD)) {
-            System.out.println("invalid action.");
+            System.out.println("invalid build action.");
             return false;
         }
         GameLogic currPlayerLogic = logics.get(player);
@@ -153,11 +153,15 @@ public class Game {
                 if (board.getField(currLoc).hasWorker()){
                     System.out.print(board.getField(currLoc).getWorker().getPlayer().symbol());
                 } else {
-                    int lvl = board.getField(currLoc).getLevel();
-                    if (lvl == 0) {
-                        System.out.print("-");
+                    if (board.getField(currLoc).hasDome()) {
+                        System.out.print("X");
                     } else {
-                        System.out.print(lvl);
+                        int lvl = board.getField(currLoc).getLevel();
+                        if (lvl == 0) {
+                            System.out.print("-");
+                        } else {
+                            System.out.print(lvl);
+                        }
                     }
                 }
                 System.out.print(" ");

@@ -13,6 +13,7 @@ public class Tower {
         construction = new HashMap<>();
         construction.put(BuildingComponent.BLOCK, 0);
         construction.put(BuildingComponent.DOME, 0);
+
     }
 
     public boolean build() {
@@ -30,7 +31,7 @@ public class Tower {
     }
 
     public boolean isBuildable() {
-        return construction.get(BuildingComponent.DOME) != 1;
+        return construction.get(BuildingComponent.DOME) == 0;
     }
 
     public int getHeight() {
@@ -39,5 +40,24 @@ public class Tower {
 
     public boolean isBlockFull() {
         return level == MAX_BLOCKS;
+    }
+
+    public boolean hasDome() {
+        return construction.get(BuildingComponent.DOME) == 1;
+    }
+
+    public boolean buildDome() {
+        if (construction.get(BuildingComponent.DOME) == 1) {
+            throw new IllegalStateException("Tower on the field already has a dome.");
+        }
+        construction.put(BuildingComponent.DOME, 1);
+        return true;
+    }
+
+    public void removeOneBlock() {
+        if (construction.get(BuildingComponent.BLOCK) == 0) {
+            throw new IllegalStateException("Tower on the field has no block.");
+        }
+        construction.put(BuildingComponent.BLOCK, (construction.get(BuildingComponent.BLOCK) - 1));
     }
 }

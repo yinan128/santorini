@@ -108,4 +108,12 @@ public class Board {
     public int workerLevelChange(Location location) {
         return deltaHeight(location, getWorkerOnField(location).getPrevState().getLocation());
     }
+
+    public boolean buildDome(Location location) {
+        return fieldMap.get(location).buildDome();
+    }
+
+    public void removeOneBlock(Location location) {
+        fieldMap.get(location).removeOneBlock();
+    }
 }
