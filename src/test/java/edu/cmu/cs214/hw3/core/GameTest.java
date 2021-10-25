@@ -152,22 +152,44 @@ public class GameTest {
 //        game.build(player2, Location.get(0, 3), Location.get(1, 2));
 //        game.printBoard();
 
-        // Atlas test.
-        game.assignGameLogic(player1, new AtlasGameLogic(new BasicGameLogic()));
-        game.placeWorker(player1, Location.get(0, 0));
-        game.placeWorker(player1, Location.get(4, 4));
-        game.placeWorker(player2, Location.get(4, 0));
-        game.placeWorker(player2, Location.get(0, 4));
-        game.printBoard();
+//        // Atlas test.
+//        game.assignGameLogic(player1, new AtlasGameLogic(new BasicGameLogic()));
+//        game.placeWorker(player1, Location.get(0, 0));
+//        game.placeWorker(player1, Location.get(4, 4));
+//        game.placeWorker(player2, Location.get(4, 0));
+//        game.placeWorker(player2, Location.get(0, 4));
+//        game.printBoard();
+//
+//        game.moveWorker(player1, Location.get(0, 0), Location.get(0, 1));
+//        game.build(player1, Location.get(0, 1), Location.get(0, 0));
+//        game.build(player1, Location.get(0, 1), Location.get(0, 0));
+//        game.printBoard();
+//
+//        game.moveWorker(player2, Location.get(0, 4), Location.get(0, 3));
+//        game.build(player2, Location.get(0, 3), Location.get(0, 2));
+//        game.printBoard();
 
-        game.moveWorker(player1, Location.get(0, 0), Location.get(0, 1));
-        game.build(player1, Location.get(0, 1), Location.get(0, 0));
-        game.build(player1, Location.get(0, 1), Location.get(0, 0));
-        game.printBoard();
-
-        game.moveWorker(player2, Location.get(0, 4), Location.get(0, 3));
-        game.build(player2, Location.get(0, 3), Location.get(0, 2));
-        game.printBoard();
+//        // Hephaestus test, 2x build
+//        game.assignGameLogic(player1, new HephaestusGameLogic(new BasicGameLogic()));
+//        game.placeWorker(player1, Location.get(0, 0));
+//        game.placeWorker(player1, Location.get(4, 4));
+//        game.placeWorker(player2, Location.get(4, 0));
+//        game.placeWorker(player2, Location.get(0, 4));
+//        game.printBoard();
+//
+//        game.moveWorker(player1, Location.get(0, 0), Location.get(0, 1));
+//        game.build(player1, Location.get(0, 1), Location.get(0, 0));
+//        game.build(player1, Location.get(0, 1), Location.get(0, 0));
+//        game.printBoard();
+//
+//        game.moveWorker(player2, Location.get(0, 4), Location.get(0, 3));
+//        game.build(player2, Location.get(0, 3), Location.get(0, 2));
+//        game.printBoard();
+//
+//        game.moveWorker(player1, Location.get(0, 1), Location.get(1, 1));
+//        System.out.println(game.build(player1, Location.get(1, 1), Location.get(0, 0)));
+//        System.out.println(game.build(player1, Location.get(1, 1), Location.get(0, 0)));
+//        game.printBoard();
 
 
     }
