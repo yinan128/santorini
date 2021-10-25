@@ -95,9 +95,7 @@ public class Game {
         }
 
         // movement is valid, apply actual move action.
-        boolean moveSuccess = currPlayerLogic.move(board, start, destination);
-        // move could fail.
-        if (!moveSuccess) return false;
+        currPlayerLogic.move(board, start, destination);
 
         System.out.println("Move success. Destination: " + destination);
 
