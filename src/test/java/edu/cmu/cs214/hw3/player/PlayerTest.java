@@ -1,11 +1,4 @@
 package edu.cmu.cs214.hw3.player;
-import edu.cmu.cs214.hw3.position.Location;
-import org.junit.Before;
-import org.junit.Test;
-
-import static org.junit.Assert.*;
-
-
 
 
 public class PlayerTest {

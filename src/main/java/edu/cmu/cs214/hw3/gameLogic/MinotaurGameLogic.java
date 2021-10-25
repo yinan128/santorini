@@ -1,11 +1,8 @@
 package edu.cmu.cs214.hw3.gameLogic;
 
 import edu.cmu.cs214.hw3.core.Board;
-import edu.cmu.cs214.hw3.player.Player;
 import edu.cmu.cs214.hw3.player.Worker;
-import edu.cmu.cs214.hw3.position.Location;
-
-import java.util.Map;
+import edu.cmu.cs214.hw3.util.Location;
 
 /**
  * Game logic of Minotaur,

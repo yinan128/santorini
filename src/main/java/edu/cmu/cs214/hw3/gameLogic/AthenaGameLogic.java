@@ -3,7 +3,7 @@ package edu.cmu.cs214.hw3.gameLogic;
 import edu.cmu.cs214.hw3.core.Board;
 import edu.cmu.cs214.hw3.listeners.EventListener;
 import edu.cmu.cs214.hw3.player.Player;
-import edu.cmu.cs214.hw3.position.Location;
+import edu.cmu.cs214.hw3.util.Location;
 
 import java.util.Map;
 

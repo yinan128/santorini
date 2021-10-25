@@ -5,7 +5,7 @@ import edu.cmu.cs214.hw3.listeners.EventListener;
 import edu.cmu.cs214.hw3.player.Player;
 import edu.cmu.cs214.hw3.player.Worker;
 import edu.cmu.cs214.hw3.playground.Field;
-import edu.cmu.cs214.hw3.position.Location;
+import edu.cmu.cs214.hw3.util.Location;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -171,7 +171,7 @@ public class BasicGameLogic implements GameLogic {
     }
 
     private boolean hasWorker(Board board, Location start) {
-        return board.hasWorker(start);
+        return board.isFieldOccupied(start);
     }
 
     @Override

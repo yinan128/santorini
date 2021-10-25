@@ -1,9 +1,6 @@
 package edu.cmu.cs214.hw3.core;
 
-import edu.cmu.cs214.hw3.gameLogic.*;
-import edu.cmu.cs214.hw3.listeners.LogicController;
 import edu.cmu.cs214.hw3.player.Player;
-import edu.cmu.cs214.hw3.position.Location;
 
 public class GameTest {
     public static void main(String[] args) {
