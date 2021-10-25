@@ -88,35 +88,88 @@ public class GameTest {
 //        game.printBoard();
 
 
-        // test sequence handler.
-        game.assignGameLogic(player1, new ArtemisGameLogic(new BasicGameLogic()));
+//        // test sequence handler.
+//        game.assignGameLogic(player1, new ArtemisGameLogic(new BasicGameLogic()));
+//        game.placeWorker(player1, Location.get(0, 0));
+//        game.placeWorker(player1, Location.get(4, 4));
+//        game.placeWorker(player2, Location.get(4, 0));
+//        game.placeWorker(player2, Location.get(0, 4));
+//        game.printBoard();
+//
+//        // round 1
+//        // player 1 turn.
+//        game.moveWorker(player1, Location.get(0, 0), Location.get(1, 0));
+//        game.moveWorker(player1, Location.get(1, 0), Location.get(1, 1));
+//        game.build(player1, Location.get(1, 1), Location.get(0, 0));
+//        game.printBoard();
+//        // player 2 turn.
+//        game.moveWorker(player2, Location.get(4, 0), Location.get(4, 1));
+//        game.build(player2, Location.get(4, 1), Location.get(4, 0));
+//        game.printBoard();
+//
+//        // round 2
+//        // player 1 turn.
+//        game.moveWorker(player1, Location.get(1, 1), Location.get(1, 2));
+//        game.skipAction(player1);
+//        game.build(player1, Location.get(1, 2), Location.get(1, 1));
+//        game.printBoard();
+//        // player 2 turn.
+//        game.moveWorker(player2, Location.get(4, 1), Location.get(3, 1));
+//        game.build(player2, Location.get(3, 1), Location.get(4, 0));
+//        game.printBoard();
+
+//        // Artemis test.
+//        game.assignGameLogic(player1, new ArtemisGameLogic(new BasicGameLogic()));
+//        game.placeWorker(player1, Location.get(0, 0));
+//        game.placeWorker(player1, Location.get(4, 4));
+//        game.placeWorker(player2, Location.get(4, 0));
+//        game.placeWorker(player2, Location.get(0, 4));
+//        game.printBoard();
+//
+//        game.moveWorker(player1, Location.get(0, 0), Location.get(1, 1));
+//        game.skipAction(player1);
+//        game.build(player1, Location.get(1, 1), Location.get(1, 0));
+//        game.printBoard();
+//
+//        game.moveWorker(player2, Location.get(4, 0), Location.get(3, 0));
+//        game.printBoard();
+
+
+//        // Demeter test.
+//        game.assignGameLogic(player1, new DemeterGameLogic(new BasicGameLogic()));
+//        game.placeWorker(player1, Location.get(0, 0));
+//        game.placeWorker(player1, Location.get(4, 4));
+//        game.placeWorker(player2, Location.get(4, 0));
+//        game.placeWorker(player2, Location.get(0, 4));
+//        game.printBoard();
+//
+//        game.moveWorker(player1, Location.get(0, 0), Location.get(1, 1));
+//        game.build(player1, Location.get(1, 1), Location.get(1, 0));
+//        game.build(player1, Location.get(1, 1), Location.get(1, 2));
+//        game.printBoard();
+//
+//        game.moveWorker(player2, Location.get(0, 4), Location.get(0, 3));
+//        game.build(player2, Location.get(0, 3), Location.get(1, 2));
+//        game.printBoard();
+
+        // Atlas test.
+        game.assignGameLogic(player1, new AtlasGameLogic(new BasicGameLogic()));
         game.placeWorker(player1, Location.get(0, 0));
         game.placeWorker(player1, Location.get(4, 4));
         game.placeWorker(player2, Location.get(4, 0));
         game.placeWorker(player2, Location.get(0, 4));
         game.printBoard();
 
-        // round 1
-        // player 1 turn.
-        game.moveWorker(player1, Location.get(0, 0), Location.get(1, 0));
-        game.moveWorker(player1, Location.get(1, 0), Location.get(1, 1));
-        game.build(player1, Location.get(1, 1), Location.get(0, 0));
-        game.printBoard();
-        // player 2 turn.
-        game.moveWorker(player2, Location.get(4, 0), Location.get(4, 1));
-        game.build(player2, Location.get(4, 1), Location.get(4, 0));
+        game.moveWorker(player1, Location.get(0, 0), Location.get(0, 1));
+        game.build(player1, Location.get(0, 1), Location.get(0, 0));
+        game.build(player1, Location.get(0, 1), Location.get(0, 0));
         game.printBoard();
 
-        // round 2
-        // player 1 turn.
-        game.moveWorker(player1, Location.get(1, 1), Location.get(1, 2));
-        game.skipAction(player1);
-        game.build(player1, Location.get(1, 2), Location.get(1, 1));
+        game.moveWorker(player2, Location.get(0, 4), Location.get(0, 3));
+        game.build(player2, Location.get(0, 3), Location.get(0, 2));
         game.printBoard();
-        // player 2 turn.
-        game.moveWorker(player2, Location.get(4, 1), Location.get(3, 1));
-        game.build(player2, Location.get(3, 1), Location.get(4, 0));
-        game.printBoard();
+
+
     }
 
 }
