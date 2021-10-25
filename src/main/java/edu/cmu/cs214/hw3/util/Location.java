@@ -1,7 +1,10 @@
-package edu.cmu.cs214.hw3.position;
+package edu.cmu.cs214.hw3.util;
 
 import java.util.*;
 
+/**
+ * A class to represent the location (row, col) on the board.
+ */
 public final class Location {
 
     private static final Map<Integer, Location> cache = new HashMap<>();
@@ -13,6 +16,7 @@ public final class Location {
         this.col = col;
     }
 
+    // static factory.
     public static Location get(int row, int col) {
         int hashCode = Objects.hash(row, col);
         if (!cache.containsKey(hashCode)) {
@@ -23,6 +27,10 @@ public final class Location {
         return cache.get(hashCode);
     }
 
+    /**
+     * Method to get the locations which are on the perimeter of the current location.
+     * @return a list of locations.
+     */
     public List<Location> getPerimeter() {
         List<Location> result = new ArrayList<>();
         for (int i = -1; i <= 1; i++) {
@@ -37,41 +45,6 @@ public final class Location {
         return result;
     }
 
-    public Location getRelativeLoc(Direction dir) {
-        if (dir == null) {
-            throw new IllegalArgumentException("invalid direction");
-        }
-        switch (dir) {
-            case UP -> {
-                return new Location(row - 1, col);
-            }
-
-            case UPLEFT -> {
-                return new Location(row - 1, col - 1);
-            }
-            case UPRIGHT -> {
-                return new Location(row - 1, col + 1);
-            }
-            case LEFT -> {
-                return new Location(row, col - 1);
-            }
-            case RIGHT -> {
-                return new Location(row, col + 1);
-            }
-            case DOWNLEFT -> {
-                return new Location(row + 1, col - 1);
-            }
-            case DOWN -> {
-                return new Location(row + 1, col);
-            }
-            case DOWNRIGHT -> {
-                return new Location(row + 1, col + 1);
-            }
-            default -> {
-                throw new IllegalArgumentException("Direction is not valid,");
-            }
-        }
-    }
 
     @Override
     public String toString() {
