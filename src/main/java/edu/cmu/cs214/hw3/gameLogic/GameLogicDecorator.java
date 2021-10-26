@@ -38,7 +38,10 @@ public class GameLogicDecorator implements GameLogic {
      */
     @Override
     public boolean forceMove(Board board, Location start, Location destination) {
-        return wrappee.forceMove(board, start, destination);
+        board.moveWorker(start, destination);
+        informOnMoveAction(destination);
+        return true;
+//        return wrappee.forceMove(board, start, destination);
     }
 
     @Override
@@ -107,8 +110,8 @@ public class GameLogicDecorator implements GameLogic {
     }
 
     @Override
-    public void informOnMoveAction() {
-        wrappee.informOnMoveAction();
+    public void informOnMoveAction(Location location) {
+        wrappee.informOnMoveAction(location);
     }
 
     @Override

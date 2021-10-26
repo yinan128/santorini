@@ -27,7 +27,7 @@ public class BlockedGameLogic extends GameLogicDecorator {
         boolean success = super.move(board, start, destination);
         if (success) {
             getEventListeners().forEach(l -> l.castImpactAction(this));
-            informOnMoveAction();
+            informOnMoveAction(destination);
         }
         return success;
     }

@@ -1,18 +1,33 @@
 package edu.cmu.cs214.hw3.listeners;
 
 import edu.cmu.cs214.hw3.player.Player;
+import edu.cmu.cs214.hw3.util.Location;
 
 /**
- * A class to represent a game action in the game flow.
+ * A class to represent a valid game action in the game flow.
  */
 public final class GameAction {
 
     private final Player player;
     private final WorkerAction action;
 
+    /**
+     * the location of the worker that is eligible to be selected to do actions.
+     */
+    private Location location;
+
     public GameAction(Player player, WorkerAction action) {
         this.player = player;
         this.action = action;
+        this.location = null;
+    }
+
+    public void setValidLocation(Location location) {
+        this.location = location;
+    }
+
+    public void resetValidLocation() {
+        this.location = null;
     }
 
     /**
@@ -21,7 +36,17 @@ public final class GameAction {
      * @param action the action player wants to make.
      * @return true if they match.
      */
-    public boolean matches(Player player, WorkerAction action) {
-        return this.player == player && this.action == action;
+    public boolean matches(Player player, WorkerAction action, Location location) {
+        boolean locationMatch;
+        if (this.location == null) {
+            locationMatch = true;
+        } else {
+            locationMatch = (this.location == location);
+        }
+        return locationMatch && this.player == player && this.action == action;
+    }
+
+    public Player getPlayer() {
+        return player;
     }
 }

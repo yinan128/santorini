@@ -43,7 +43,7 @@ public class BasicGameLogic implements GameLogic {
     @Override
     public boolean move(Board board, Location start, Location destination) {
         board.moveWorker(start, destination);
-        informOnMoveAction();
+        informOnMoveAction(destination);
         informNextAction();
         return true;
     }
@@ -169,9 +169,9 @@ public class BasicGameLogic implements GameLogic {
 
 
     @Override
-    public void informOnMoveAction() {
+    public void informOnMoveAction(Location location) {
         for (EventListener listener: listeners) {
-            listener.onMoveAction();
+            listener.onMoveAction(location);
         }
     }
 

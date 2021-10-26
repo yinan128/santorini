@@ -3,6 +3,7 @@ package edu.cmu.cs214.hw3.listeners;
 import edu.cmu.cs214.hw3.gameLogic.GameLogic;
 import edu.cmu.cs214.hw3.player.Player;
 import edu.cmu.cs214.hw3.player.Worker;
+import edu.cmu.cs214.hw3.util.Location;
 
 import java.util.Map;
 
@@ -27,7 +28,7 @@ public class LogicController implements EventListener {
     }
 
     @Override
-    public void onMoveAction() {
+    public void onMoveAction(Location location) {
     }
 
     @Override

@@ -43,32 +43,16 @@ public class MinotaurGameLogic extends GameLogicDecorator {
 
     @Override
     public boolean move(Board board, Location start, Location destination) {
-//        // case 1: field empty
-//        if (!isFieldOccupied(board, destination)) {
-//            return super.move(board, start, destination);
-//        }
-//
-//        // case 2: field occupied by opponent worker.
-//        Worker oppoWorker = board.getWorkerOnField(destination);
-//        Worker prevState = oppoWorker.getPrevState();
-//
-//        // force move the opponent worker to previous location.
-//        super.forceMove(board, destination, prevState.getLocation());
-//
-//        // move our worker to destination.
-//        return super.move(board, start, destination);
-
         if (isFieldOccupied(board, destination)) {
             Worker oppoWorker = board.getWorkerOnField(destination);
             Worker prevState = oppoWorker.getPrevState();
 
             // force move the opponent worker to previous location.
-            super.forceMove(board, destination, prevState.getLocation());
+            board.moveWorker(destination, prevState.getLocation());
         }
 
         // move our worker to destination.
         return super.move(board, start, destination);
-
 
     }
 

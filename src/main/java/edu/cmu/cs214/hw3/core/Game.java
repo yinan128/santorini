@@ -85,7 +85,7 @@ public class Game {
      * @return true if move is successful, otherwise false.
      */
     public boolean moveWorker(Player player, Location start, Location destination) {
-        if (!sequenceHandler.isValidAction(player, WorkerAction.MOVE)) {
+        if (!sequenceHandler.isValidAction(player, WorkerAction.MOVE, start)) {
             System.out.println("invalid move action.");
             return false;
         }
@@ -126,7 +126,7 @@ public class Game {
      * @return true if build is successful, otherwise false.
      */
     public boolean build(Player player, Location start, Location location) {
-        if (!sequenceHandler.isValidAction(player, WorkerAction.BUILD)) {
+        if (!sequenceHandler.isValidAction(player, WorkerAction.BUILD, start)) {
             System.out.println("invalid build action.");
             return false;
         }

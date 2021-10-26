@@ -109,7 +109,7 @@ public interface GameLogic {
     /**
      * notify the event listeners of the move action.
      */
-    void informOnMoveAction();
+    void informOnMoveAction(Location location);
 
     /**
      * notify the event listeners of the build action.

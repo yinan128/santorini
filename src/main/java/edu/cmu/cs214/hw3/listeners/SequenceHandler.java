@@ -2,6 +2,7 @@ package edu.cmu.cs214.hw3.listeners;
 
 import edu.cmu.cs214.hw3.gameLogic.GameLogic;
 import edu.cmu.cs214.hw3.player.Player;
+import edu.cmu.cs214.hw3.util.Location;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -27,8 +28,15 @@ public class SequenceHandler implements EventListener {
         currAction = 0;
     }
 
-    public boolean isValidAction(Player player, WorkerAction action) {
-        return actions.get(currAction).matches(player, action);
+    /**
+     * Identify if the player want to apply a certain action on the worker located on the designated location.
+     * @param player the player performs an action.
+     * @param action the action to be taken.
+     * @param location the location holding the worker to be manipulated.
+     * @return true if the player can do so.
+     */
+    public boolean isValidAction(Player player, WorkerAction action, Location location) {
+        return actions.get(currAction).matches(player, action, location);
     }
 
 
@@ -38,8 +46,14 @@ public class SequenceHandler implements EventListener {
     }
 
     @Override
-    public void onMoveAction() {
-
+    public void onMoveAction(Location location) {
+        // set the valid location for the move action since there can be optional moves incoming.
+        // also set the valid location for the build action.
+        for (GameAction action : actions) {
+            if (action.getPlayer() == actions.get(currAction).getPlayer()) {
+                action.setValidLocation(location);
+            }
+        }
     }
 
     @Override
@@ -53,6 +67,10 @@ public class SequenceHandler implements EventListener {
     @Override
     public void onNextActionEvent() {
         proceed();
+        // when all the players have made actions in a round, reset the valid locations.
+        if (currAction == 0) {
+            actions.forEach(GameAction::resetValidLocation);
+        }
     }
 
     /**

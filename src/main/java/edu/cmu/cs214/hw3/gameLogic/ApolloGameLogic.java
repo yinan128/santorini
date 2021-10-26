@@ -40,7 +40,7 @@ public class ApolloGameLogic extends GameLogicDecorator {
 
         // case 2: field occupied. Swap the location with the opponent worker.
         // 1.force move the opponent worker to our location.
-        super.forceMove(board, destination, start);
+        board.moveWorker(destination, start);
         // 2.move our worker to destination.
         return super.move(board, start, destination);
     }
