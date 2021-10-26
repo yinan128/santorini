@@ -19,9 +19,9 @@ public class DemeterGameLogic extends GameLogicDecorator {
     @Override
     public boolean isBuildable(Board board, Location start, Location location) {
         if (lastBuild == null) {
-            return wrappee.isBuildable(board, start, location);
+            return super.isBuildable(board, start, location);
         }
-        return location != lastBuild && wrappee.isBuildable(board, start, location);
+        return location != lastBuild && super.isBuildable(board, start, location);
     }
 
     @Override
