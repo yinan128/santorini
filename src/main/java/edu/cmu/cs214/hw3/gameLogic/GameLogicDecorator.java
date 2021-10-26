@@ -12,8 +12,7 @@ import java.util.Map;
 
 public class GameLogicDecorator implements GameLogic {
 
-    protected GameLogic wrappee;
-
+    private final GameLogic wrappee;
 
     public GameLogicDecorator(GameLogic gameLogic) {
         wrappee = gameLogic;
@@ -39,9 +38,7 @@ public class GameLogicDecorator implements GameLogic {
      */
     @Override
     public boolean forceMove(Board board, Location start, Location destination) {
-        board.moveWorker(start, destination);
-        informOnMoveAction();
-        return true;
+        return wrappee.forceMove(board, start, destination);
     }
 
     @Override

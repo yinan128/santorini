@@ -21,14 +21,18 @@ public class BasicGameLogic implements GameLogic {
 
     private final List<EventListener> listeners;
 
+    private Location workerLocation;
+
     public BasicGameLogic() {
         listeners = new ArrayList<>();
+        workerLocation = null;
     }
 
 
     @Override
     public boolean isValidMove(Board board, Location start, Location destination) {
-        if (!hasWorker(board, start)
+//        if (workerLocation != null && workerLocation != start) return false;
+        if (!isFieldOccupied(board, start)
                 || !isLocationOnPerimeter(board, start, destination)
                 || isFieldOccupied(board, destination)
                 || isFieldDomed(board, destination)
@@ -42,6 +46,7 @@ public class BasicGameLogic implements GameLogic {
     @Override
     public boolean move(Board board, Location start, Location destination) {
         board.moveWorker(start, destination);
+        workerLocation = destination;
         informOnMoveAction();
         informNextAction();
         return true;
@@ -59,6 +64,10 @@ public class BasicGameLogic implements GameLogic {
     public boolean forceMove(Board board, Location start, Location destination) {
         // shouldn't be called.
         throw new UnsupportedOperationException("forceMove is not supported in basic game logic.");
+//        board.moveWorker(start, destination);
+//        workerLocation = destination;
+//        informOnMoveAction();
+//        return true;
     }
 
     @Override
@@ -69,7 +78,9 @@ public class BasicGameLogic implements GameLogic {
 
     @Override
     public boolean isBuildable(Board board, Location start, Location location) {
-        if (!hasWorker(board, start)
+//        if (workerLocation != null && workerLocation != start) return false;
+        if (start != workerLocation
+                || !isFieldDomed(board, start)
                 || !isLocationOnPerimeter(board, start, location)
                 || isFieldOccupied(board, location)
                 || isFieldDomed(board, location)) {
@@ -83,6 +94,7 @@ public class BasicGameLogic implements GameLogic {
     public boolean build(Board board, Location location) {
         informOnBuildAction();
         informNextAction();
+        workerLocation = null;
         return board.buildOn(location);
     }
 
@@ -152,10 +164,6 @@ public class BasicGameLogic implements GameLogic {
     }
 
 
-    private boolean isLocationOnBoard(Board board, Location destination) {
-        return board.isCoordOnBoard(destination);
-    }
-
     private boolean isFieldOccupied(Board board, Location destination) {
         return board.isFieldOccupied(destination);
     }
@@ -170,9 +178,6 @@ public class BasicGameLogic implements GameLogic {
         return board.isFieldDomed(destination);
     }
 
-    private boolean hasWorker(Board board, Location start) {
-        return board.isFieldOccupied(start);
-    }
 
     @Override
     public void informOnMoveAction() {
