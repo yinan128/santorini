@@ -2,6 +2,7 @@ package edu.cmu.cs214.hw3.listeners;
 
 import edu.cmu.cs214.hw3.gameLogic.GameLogic;
 import edu.cmu.cs214.hw3.player.Worker;
+import edu.cmu.cs214.hw3.util.Location;
 
 /**
  * Event listener interface to handle different events from the game.
@@ -17,7 +18,7 @@ public interface EventListener {
     /**
      * when player moved his worker.
      */
-    void onMoveAction();
+    void onMoveAction(Location location);
 
     /**
      * when player made a build action.
