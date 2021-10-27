@@ -30,6 +30,9 @@ public class Player {
     }
 
     public void addWorker() {
+        if (currWorkerNum == WORKER_NUM) {
+            throw new IllegalStateException();
+        }
         currWorkerNum++;
     }
 
