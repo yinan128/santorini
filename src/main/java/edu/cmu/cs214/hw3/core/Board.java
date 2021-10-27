@@ -155,6 +155,9 @@ public class Board {
      * @return level change, positive if worker moved up.
      */
     public int workerLevelChange(Location location) {
+        if (getWorkerOnField(location) == null) {
+            throw new IllegalStateException("current location does not have a worker");
+        }
         return deltaHeight(location, getWorkerOnField(location).getPrevState().getLocation());
     }
 
