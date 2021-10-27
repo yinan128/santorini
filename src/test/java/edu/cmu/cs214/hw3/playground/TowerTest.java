@@ -59,4 +59,27 @@ public class TowerTest {
         // one more build action won't change the height of tower.
         assertEquals(4, tower.getHeight());
     }
+
+    @Test
+    public void testBuildDome() {
+        tower.buildDome();
+        assertFalse(tower.isBuildable());
+    }
+
+    @Test
+    public void testBuildOneBlockThenRemove() {
+        tower.build();
+        tower.removeOneBlock();
+        assertEquals(0, tower.getHeight());
+    }
+
+    @Test
+    public void testBuildDomeOnFullyBuiltTower() {
+        for (int i = 0; i < 4; i++) {
+            tower.build();
+        }
+        assertThrows(IllegalStateException.class, () -> {
+            tower.buildDome();
+        });
+    }
 }

@@ -52,6 +52,7 @@ public class Tower {
         if (construction.get(BuildingComponent.DOME) == 1) {
             throw new IllegalStateException("Tower on the field already has a dome.");
         }
+        level++;
         construction.put(BuildingComponent.DOME, 1);
         return true;
     }
@@ -60,6 +61,7 @@ public class Tower {
         if (construction.get(BuildingComponent.BLOCK) == 0) {
             throw new IllegalStateException("Tower on the field has no block.");
         }
+        level--;
         construction.put(BuildingComponent.BLOCK, (construction.get(BuildingComponent.BLOCK) - 1));
     }
 }
