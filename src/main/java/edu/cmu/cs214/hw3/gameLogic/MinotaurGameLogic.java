@@ -27,7 +27,7 @@ public class MinotaurGameLogic extends GameLogicDecorator {
             return isDestReachable(board, start, destination);
         }
         // check if the occupied worker belongs to the same owner.
-        if (!Worker.fromSamePlayer(board.getWorkerOnField(destination), board.getWorkerOnField(start))) {
+        if (Worker.fromSamePlayer(board.getWorkerOnField(destination), board.getWorkerOnField(start))) {
             return false;
         }
         // check if the opponent worker can move back to prevState.
