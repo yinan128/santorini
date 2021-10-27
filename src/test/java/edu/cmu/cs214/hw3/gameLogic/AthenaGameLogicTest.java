@@ -6,5 +6,5 @@ import static org.junit.Assert.*;
 
 public class AthenaGameLogicTest {
 
-
+    // better use integration test.
 }
