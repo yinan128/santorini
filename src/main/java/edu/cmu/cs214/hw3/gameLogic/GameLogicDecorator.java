@@ -74,7 +74,7 @@ public class GameLogicDecorator implements GameLogic {
 
     @Override
     public void skip() {
-        throw new UnsupportedOperationException();
+        throw new UnsupportedOperationException("skip is not supported.");
     }
 
 
