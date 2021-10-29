@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+
+        #output
+        {
+            text-align: right;
+            border: 1px solid black;
+            width: 240px;
+            height: 50px;
+            line-height: 50px;
+            background-color: #F0F8FF;
+            margin-bottom: 5px;
+        }
+
+
+        .empty
+        {
+            margin: 5px;
+            border: 1px solid black;
+            border-radius: 20px;
+            height: 50px;
+            width: 50px;
+            background-color: #F0F8FF;
+        }
+
+        .empty:hover
+        {
+            background-color: #87CEFA;
+        }
+
+        .occupied
+        {
+            margin: 5px;
+            border: 1px solid black;
+            border-radius: 20px;
+            height: 100px;
+            width: 100px;
+            background-color: #FFF0F5;
+        }
+
+        .occupied:hover
+        {
+            background-color: #FFB6C1;
+        }
+
+        .board {
+            display: flex;
+            flex-wrap: wrap;
+            width: 600px;
+        }
+
+        .board > a {
+            text-decoration: none;
+            color: black;
+        }
+
+        .board > a > div {
+            text-align:center;
+            line-height: 100px;
+            font-size: x-large;
+        }
+    </style>
+</head>
+<body>
+<div id="output">0</div>
+<div class="board">
+
+    <a href="/some"><div class="occupied">3</div></a>
+    <div class="occupied"></div>
+    <a href="/some"><div class="occupied"></div></a>
+    <a href="/some"><div class="occupied"></div></a>
+    <a href="/some"><div class="occupied"></div></a>
+
+    <a href="/some"><div class="occupied"></div></a>
+    <a href="/some"><div class="occupied"></div></a>
+    <a href="/some"><div class="occupied"></div></a>
+    <a href="/some"><div class="occupied"></div></a>
+    <a href="/some"><div class="occupied"></div></a>
+
+</div>
+</body>
+</html>

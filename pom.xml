@@ -81,6 +81,18 @@
             <version>RELEASE</version>
             <scope>test</scope>
         </dependency>
+        <!-- https://mvnrepository.com/artifact/com.github.jknack/handlebars -->
+        <dependency>
+            <groupId>com.github.jknack</groupId>
+            <artifactId>handlebars</artifactId>
+            <version>4.2.1</version>
+        </dependency>
+        <!-- https://mvnrepository.com/artifact/org.nanohttpd/nanohttpd -->
+        <dependency>
+            <groupId>org.nanohttpd</groupId>
+            <artifactId>nanohttpd</artifactId>
+            <version>2.3.0</version>
+        </dependency>
     </dependencies>
     <reporting>
         <plugins>

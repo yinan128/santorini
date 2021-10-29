@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+
+        #output
+        {
+            text-align: right;
+            border: 1px solid black;
+            width: 240px;
+            height: 50px;
+            line-height: 50px;
+            background-color: #F0F8FF;
+            margin-bottom: 5px;
+        }
+
+
+        .empty
+        {
+            margin: 5px;
+            border: 1px solid black;
+            border-radius: 20px;
+            height: 50px;
+            width: 50px;
+            background-color: #F0F8FF;
+        }
+
+        .empty:hover
+        {
+            background-color: #87CEFA;
+        }
+
+        .occupied
+        {
+            margin: 5px;
+            border: 1px solid black;
+            border-radius: 20px;
+            height: 100px;
+            width: 100px;
+            background-color: #FFF0F5;
+        }
+
+        .occupied:hover
+        {
+            background-color: #FFB6C1;
+        }
+
+        .board {
+            display: flex;
+            flex-wrap: wrap;
+            width: 600px;
+        }
+
+        .board > a {
+            text-decoration: none;
+            color: black;
+        }
+
+        .board > a > div {
+            text-align:center;
+            line-height: 100px;
+            font-size: x-large;
+        }
+
+        #bottombar {
+              height: 5vh;
+        }
+
+        #bottombar  button {
+              width: 50%;
+              height: 100%;
+              margin: 0;
+              padding: 0;
+              position: relative;
+              float: left;
+              font-size: 2vw
+        }
+    </style>
+</head>
+
+<body>
+<div id="output">0</div>
+<div class="board">
+
+    {{#each cells}}
+        {{#if link}}
+            <a href={{link}}><div class={{clazz}}>{{text}}</div></a>
+        {{else}}
+            <div class={{clazz}}>{{text}}</div>
+        {{/if}}
+    {{/each}}
+    <div id="bottombar">
+        <a href="/newgame"><button>New Game</button></a>
+        <button>Undo</button>
+    </div>
+
+</div>
+</body>
+</html>
