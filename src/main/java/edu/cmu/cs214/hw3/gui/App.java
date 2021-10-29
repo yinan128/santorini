@@ -10,13 +10,22 @@ import java.util.Map;
 
 public class App extends NanoHTTPD {
 
-    private Game game;
+    public static void main(String[] args) {
+        try {
+            new App();
+        } catch (IOException ioe) {
+            System.out.println(ioe);
+        }
+    }
+
+    private GameState gameState;
     private Template template;
+
 
     public App() throws IOException {
         super(8080);
 
-        this.game = new Game();
+        this.gameState = new GameState(new Game());
         Handlebars handlebars = new Handlebars();
         this.template = handlebars.compile("main");
 
@@ -30,53 +39,24 @@ public class App extends NanoHTTPD {
             String uri = session.getUri();
             Map<String, String> params = session.getParms();
             if (uri.equals("/newgame")) {
-                this.game = new Game();
+                gameState = new GameState(new Game());
             } else if (uri.equals("/choose")) {
-                selectedLocation = (Integer.parseInt(params.get("y")), Integer.parseInt(params.get("x")))
-                boolean success = this.game.setActiveWorker(Integer.parseInt(params.get("y")), Integer.parseInt(params.get("x")));
-                if (success) {
-                    nextAction = game.getNextAction(); // can be optional move or build. if optional, provide skip. (action, must?)
-                    // modify all locations except for selected.
-//                    gameplay = GameState.offerAfterSelection(game, nextAction);
-                    gameplay.proceed();
-                    HTML..... return...
-                }
+                gameState.setActiveWorker(Integer.parseInt(params.get("row")), Integer.parseInt(params.get("col")));
             } else if (uri.equals("/move")) {
-                destination = (Integer.parseInt(params.get("y")), Integer.parseInt(params.get("x")))
-                boolean success = this.game.move(destination);
-                if (success) {
-                    gameplay = Gamestate.setSelectionState(game); // make all cells selectable -> href: /choose
-                    HTML..... return...
-                }
+                gameState.move(Integer.parseInt(params.get("row")), Integer.parseInt(params.get("col")));
             } else if (uri.equals("/build")) {
-                destination = (Integer.parseInt(params.get("y")), Integer.parseInt(params.get("x")))
-                boolean success = this.game.build(destination);
-                if (success) {
-                    gameplay = Gamestate.setSelectionState(game); // make all cells selectable -> href: /choose
-                    HTML.....return...
-                }
+                gameState.build(Integer.parseInt(params.get("row")), Integer.parseInt(params.get("col")));
             } else if (uri.equals("/skip")) {
-                boolean success = this.game.skip();
-                if (success) {
-                    gameplay = Gamestate.setSelectionState(game); // make all cells selectable -> href: /choose
-                    HTML..... return...
-                }
+                gameState.skip();
             }
-            doNothing... return HTML;
-
-
-
-
-            // Extract the view-specific data from the game and apply it to the template.
-            GameState gameplay = GameState.forGame(this.game);
-            String HTML = this.template.apply(gameplay);
+            // game state not changed.
+            String HTML = this.template.apply(gameState);
+            System.out.println(HTML);
             return newFixedLengthResponse(HTML);
         } catch (IOException e) {
             e.printStackTrace();
             return null;
         }
-
-
     }
 
 }

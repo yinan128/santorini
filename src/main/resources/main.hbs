@@ -85,11 +85,12 @@
 <div class="board">
 
     {{#each cells}}
-        {{#if link}}
-            <a href={{link}}><div class={{clazz}}>{{text}}</div></a>
-        {{else}}
-            <div class={{clazz}}>{{text}}</div>
-        {{/if}}
+        <a href={{link}}><div class={{clazz}}>{{text}}</div></a>
+{{!--         {{#if link}} --}}
+{{!--             <a href={{link}}><div class={{clazz}}>{{text}}</div></a> --}}
+{{!--         {{else}} --}}
+{{!--             <div class={{clazz}}>{{text}}</div> --}}
+{{!--         {{/if}} --}}
     {{/each}}
     <div id="bottombar">
         <a href="/newgame"><button>New Game</button></a>
