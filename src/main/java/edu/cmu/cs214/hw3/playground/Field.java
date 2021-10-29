@@ -115,6 +115,9 @@ public class Field {
      * @return the player who owns the worker.
      */
     public Player getWorkerOwner() {
+        if (getWorker() == null) {
+            return null;
+        }
         return getWorker().getPlayer();
     }
 
