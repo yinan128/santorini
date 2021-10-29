@@ -2,13 +2,11 @@ package edu.cmu.cs214.hw3.core;
 
 import edu.cmu.cs214.hw3.gameLogic.BasicGameLogic;
 import edu.cmu.cs214.hw3.gameLogic.GameLogic;
+import edu.cmu.cs214.hw3.listeners.*;
 import edu.cmu.cs214.hw3.listeners.EventListener;
-import edu.cmu.cs214.hw3.listeners.LogicController;
-import edu.cmu.cs214.hw3.listeners.SequenceHandler;
 import edu.cmu.cs214.hw3.player.Worker;
 import edu.cmu.cs214.hw3.util.Location;
 import edu.cmu.cs214.hw3.player.Player;
-import edu.cmu.cs214.hw3.listeners.WorkerAction;
 
 import java.util.*;
 
@@ -47,6 +45,10 @@ public class Game {
             logic.subscribe(gameLogicController);
             logic.subscribe(sequenceHandler);
         });
+        placeWorker(players.get(0), Location.get(0,0));
+        placeWorker(players.get(0), Location.get(4,4));
+        placeWorker(players.get(1), Location.get(0,4));
+        placeWorker(players.get(1), Location.get(4,0));
     }
 
     /**
@@ -190,5 +192,13 @@ public class Game {
 
     public Board getBoard() {
         return board;
+    }
+
+    public GameAction nextGameAction() {
+        return sequenceHandler.nextGameAction();
+    }
+
+    public Player getCurrentPlayer() {
+        return sequenceHandler.getCurrPlayer();
     }
 }

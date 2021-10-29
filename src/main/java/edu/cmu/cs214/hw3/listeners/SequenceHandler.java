@@ -79,4 +79,12 @@ public class SequenceHandler implements EventListener {
     private void proceed() {
         currAction = (currAction + 1) % actions.size();
     }
+
+    public GameAction nextGameAction() {
+        return actions.get(currAction);
+    }
+
+    public Player getCurrPlayer() {
+        return actions.get(currAction).getPlayer();
+    }
 }

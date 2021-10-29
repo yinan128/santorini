@@ -3,6 +3,8 @@ package edu.cmu.cs214.hw3.listeners;
 import edu.cmu.cs214.hw3.player.Player;
 import edu.cmu.cs214.hw3.util.Location;
 
+import java.util.Locale;
+
 /**
  * A class to represent a valid game action in the game flow.
  */
@@ -48,5 +50,9 @@ public final class GameAction {
 
     public Player getPlayer() {
         return player;
+    }
+
+    public String getActionName() {
+        return action.toString().toLowerCase();
     }
 }
