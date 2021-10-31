@@ -24,6 +24,10 @@ public class Cell {
         return this.clazz;
     }
 
+    public String getLocation() {
+        return location;
+    }
+
     public void setClazz(String newClazz) {
         clazz = newClazz;
     }
@@ -38,7 +42,7 @@ public class Cell {
     }
 
     public String getLink() {
-        return this.action + this.location;
+        return this.link;
     }
 
     @Override

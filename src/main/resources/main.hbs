@@ -2,8 +2,13 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>Santorini</title>
     <style>
+        body {
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+        }
 
         #output
         {
@@ -16,31 +21,32 @@
             margin-bottom: 5px;
         }
 
+        .unoccupied
+                {
+                    margin: 0.5vw;
+                    border: 0px solid black;
+                    border-radius: 20px;
+                    height: 9vw;
+                    width: 9vw;
+                    background-color: #F0F8FF;
+                }
 
-        .empty
-        {
-            margin: 5px;
-            border: 1px solid black;
-            border-radius: 20px;
-            height: 50px;
-            width: 50px;
-            background-color: #F0F8FF;
-        }
 
-        .empty:hover
+        .unoccupied:hover
         {
             background-color: #87CEFA;
         }
 
+
         .occupied
-        {
-            margin: 5px;
-            border: 1px solid black;
-            border-radius: 20px;
-            height: 100px;
-            width: 100px;
-            background-color: #FFF0F5;
-        }
+                {
+                    margin: 0.5vw;
+                    border: 0px solid black;
+                    border-radius: 20px;
+                    height: 9vw;
+                    width: 9vw;
+                    background-color: #FFF0F5;
+                }
 
         .occupied:hover
         {
@@ -50,53 +56,117 @@
         .board {
             display: flex;
             flex-wrap: wrap;
-            width: 600px;
         }
 
         .board > a {
             text-decoration: none;
             color: black;
+            text-align:center;
+            line-height: 9vw;
+            font-size: 3vw;
         }
 
-        .board > a > div {
-            text-align:center;
-            line-height: 100px;
-            font-size: x-large;
-        }
 
         #bottombar {
-              height: 5vh;
+              height: 3vw;
         }
 
         #bottombar  button {
-              width: 50%;
+              width: 30%;
               height: 100%;
-              margin: 0;
+              margin-left: 10%;
+              margin-right: 10%;
               padding: 0;
               position: relative;
               float: left;
               font-size: 2vw
+
+              text-align: center;
+              cursor: pointer;
+              color: black;
+              border: 1px solid #e7e7e7;
+              border-radius: 3px;
+              background-color: #e7e7e7;
+
         }
+
+
+        .centerFrame {
+              margin-left: 25%;
+              margin-right: 25%;
+        }
+
+        .menu {
+              font-size: 3vw
+        }
+
+        .instruction {
+              font-size: 1.5vw
+        }
+
     </style>
 </head>
 
 <body>
-<div id="output">0</div>
-<div class="board">
-
-    {{#each cells}}
-        <a href={{link}}><div class={{clazz}}>{{text}}</div></a>
-{{!--         {{#if link}} --}}
-{{!--             <a href={{link}}><div class={{clazz}}>{{text}}</div></a> --}}
-{{!--         {{else}} --}}
-{{!--             <div class={{clazz}}>{{text}}</div> --}}
-{{!--         {{/if}} --}}
-    {{/each}}
-    <div id="bottombar">
-        <a href="/newgame"><button>New Game</button></a>
-        <button>Undo</button>
+<div class="centerFrame">
+{{#unless godSelected}}
+    <div class="menu">
+        <h2>God Card Selection</h2>
+        <ul>
+            <li><a href="/chooseGod?god=NoGod&player={{playerSelecting}}"><div>NoGod</div></a></li>
+            <li><a href="/chooseGod?god=Apollo&player={{playerSelecting}}"><div>Apollo</div></a></li>
+            <li><a href="/chooseGod?god=Artemis&player={{playerSelecting}}"><div>Artemis</div></a></li>
+            <li><a href="/chooseGod?god=Athena&player={{playerSelecting}}"><div>Athena</div></a></li>
+            <li><a href="/chooseGod?god=Atlas&player={{playerSelecting}}"><div>Atlas</div></a></li>
+            <li><a href="/chooseGod?god=Demeter&player={{playerSelecting}}"><div>Demeter</div></a></li>
+            <li><a href="/chooseGod?god=Hephaestus&player={{playerSelecting}}"><div>Hephaestus</div></a></li>
+            <li><a href="/chooseGod?god=Hermes&player={{playerSelecting}}"><div>Hermes</div></a></li>
+            <li><a href="/chooseGod?god=Minotaur&player={{playerSelecting}}"><div>Minotaur</div></a></li>
+            <li><a href="/chooseGod?god=Pan&player={{playerSelecting}}"><div>Pan</div></a></li>
+        </ul>
     </div>
 
+
+    <div id="bottombar">
+        <a href="/newgame"><button>New Game</button></a>
+    </div>
+
+    <div class="instruction">
+        <h2>Instruction:</h2>
+        {{instruction}}
+    </div>
+
+
+
+{{else}}
+    <div class="board">
+        {{#each cells}}
+            {{#unless workerInitiated}}
+            <a class={{clazz}} href="/pickStartLocation?player={{playerPickingLocation}}&{{location}}">{{text}}</a>
+            {{else}}
+            <a href={{link}}><div class={{clazz}}>{{text}}</div></a>
+            {{/unless}}
+        {{/each}}
+    </div>
+
+    <div id="bottombar">
+         <a href="/newgame"><button>New Game</button></a>
+         <a href="/skip"><button>Skip</button></a>
+    </div>
+
+    <div class="instruction">
+        <h2>Instruction:</h2>
+        {{instruction}}
+        <h2>Player Stat:</h2>
+        current player is {{currPlayer}}
+        <h2>Game Stat:</h2>
+        {{#if winner}}
+            current winner is {{winner}}
+        {{else}}
+            Game in progress.
+        {{/if}}
+    </div>
+{{/unless}}
 </div>
 </body>
 </html>
