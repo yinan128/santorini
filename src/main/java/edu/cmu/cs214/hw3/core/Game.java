@@ -2,13 +2,20 @@ package edu.cmu.cs214.hw3.core;
 
 import edu.cmu.cs214.hw3.gameLogic.BasicGameLogic;
 import edu.cmu.cs214.hw3.gameLogic.GameLogic;
-import edu.cmu.cs214.hw3.listeners.*;
+import edu.cmu.cs214.hw3.listeners.LogicController;
+import edu.cmu.cs214.hw3.listeners.SequenceHandler;
+import edu.cmu.cs214.hw3.listeners.WorkerAction;
+import edu.cmu.cs214.hw3.listeners.GameAction;
 import edu.cmu.cs214.hw3.listeners.EventListener;
 import edu.cmu.cs214.hw3.player.Worker;
 import edu.cmu.cs214.hw3.util.Location;
 import edu.cmu.cs214.hw3.player.Player;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 
 /**
  * Game controller.
@@ -150,33 +157,33 @@ public class Game {
         currPlayerLogic.skip();
     }
 
-    /**
-     * print the board.
-     * for test purpose only.
-     */
-    public void printBoard() {
-        for (int i = 0; i < 5; i++) {
-            for (int j = 0; j < 5; j++) {
-                Location currLoc = Location.get(i, j);
-                if (board.getField(currLoc).isOccupied()){
-                    System.out.print(board.getField(currLoc).getWorker().getPlayer().symbol());
-                } else {
-                    if (board.getField(currLoc).hasDome()) {
-                        System.out.print("X");
-                    } else {
-                        int lvl = board.getField(currLoc).getHeight();
-                        if (lvl == 0) {
-                            System.out.print("-");
-                        } else {
-                            System.out.print(lvl);
-                        }
-                    }
-                }
-                System.out.print(" ");
-            }
-            System.out.println();
-        }
-    }
+//    /**
+//     * print the board.
+//     * for test purpose only.
+//     */
+//    public void printBoard() {
+//        for (int i = 0; i < 5; i++) {
+//            for (int j = 0; j < 5; j++) {
+//                Location currLoc = Location.get(i, j);
+//                if (board.getField(currLoc).isOccupied()){
+//                    System.out.print(board.getField(currLoc).getWorker().getPlayer().symbol());
+//                } else {
+//                    if (board.getField(currLoc).hasDome()) {
+//                        System.out.print("X");
+//                    } else {
+//                        int lvl = board.getField(currLoc).getHeight();
+//                        if (lvl == 0) {
+//                            System.out.print("-");
+//                        } else {
+//                            System.out.print(lvl);
+//                        }
+//                    }
+//                }
+//                System.out.print(" ");
+//            }
+//            System.out.println();
+//        }
+//    }
 
     public Player getWinner() {
         return winner;

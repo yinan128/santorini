@@ -1,7 +1,6 @@
 package edu.cmu.cs214.hw3.listeners;
 
 import edu.cmu.cs214.hw3.gameLogic.GameLogic;
-import edu.cmu.cs214.hw3.player.Worker;
 import edu.cmu.cs214.hw3.util.Location;
 
 /**
@@ -17,6 +16,7 @@ public interface EventListener {
 
     /**
      * when player moved his worker.
+     * @param location the destination of the move action.
      */
     void onMoveAction(Location location);
 

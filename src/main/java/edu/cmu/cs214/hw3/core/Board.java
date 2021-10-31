@@ -5,7 +5,11 @@ import edu.cmu.cs214.hw3.player.Worker;
 import edu.cmu.cs214.hw3.playground.Field;
 import edu.cmu.cs214.hw3.util.Location;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 
 /**
  * The board in the game.

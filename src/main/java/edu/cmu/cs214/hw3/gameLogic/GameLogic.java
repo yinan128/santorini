@@ -100,6 +100,7 @@ public interface GameLogic {
 
     /**
      * the action to place the worker at a certain location at the start of game.
+     * @param board the board where the game is played
      * @param worker worker to be placed.
      * @param location the location where the worker is to be placed.
      * @return true if placement is successful.
@@ -108,6 +109,7 @@ public interface GameLogic {
 
     /**
      * notify the event listeners of the move action.
+     * @param location the destination of the move action.
      */
     void informOnMoveAction(Location location);
 

@@ -2,7 +2,17 @@ package edu.cmu.cs214.hw3.gui;
 
 import edu.cmu.cs214.hw3.core.Board;
 import edu.cmu.cs214.hw3.core.Game;
-import edu.cmu.cs214.hw3.gameLogic.*;
+import edu.cmu.cs214.hw3.gameLogic.GameLogic;
+import edu.cmu.cs214.hw3.gameLogic.ApolloGameLogic;
+import edu.cmu.cs214.hw3.gameLogic.AthenaGameLogic;
+import edu.cmu.cs214.hw3.gameLogic.ArtemisGameLogic;
+import edu.cmu.cs214.hw3.gameLogic.AtlasGameLogic;
+import edu.cmu.cs214.hw3.gameLogic.BasicGameLogic;
+import edu.cmu.cs214.hw3.gameLogic.DemeterGameLogic;
+import edu.cmu.cs214.hw3.gameLogic.HermesGameLogic;
+import edu.cmu.cs214.hw3.gameLogic.HephaestusGameLogic;
+import edu.cmu.cs214.hw3.gameLogic.MinotaurGameLogic;
+import edu.cmu.cs214.hw3.gameLogic.PanGameLogic;
 import edu.cmu.cs214.hw3.listeners.GameAction;
 import edu.cmu.cs214.hw3.player.Player;
 import edu.cmu.cs214.hw3.player.Worker;
@@ -14,14 +24,14 @@ public class GameState {
 
     private static final int COLS = 5;
     private static final int ROWS = 5;
+    private static final int TOTAL = COLS * ROWS;
+    private static final int WORKER_NUM = 4;
     private String instruction;
     private Game game;
     private Cell[] cells;
     private Player currPlayer;
     private List<Player> players;
     private Worker selectedWorker;
-//    private Player winner;
-//    private boolean workerInitiated;
     private int pickingGodIndex;
     private int pickingLocationIndex;
 
@@ -30,11 +40,9 @@ public class GameState {
         this.game = game;
         pickingLocationIndex = 0;
         pickingGodIndex = 0;
-//        workerInitiated = false;
 
         // cells with choose link.
         cells = startCells(game);
-//        winner = game.getWinner();
         currPlayer = game.getCurrentPlayer();
         players = game.getPlayers();
         instruction = "Select god card for player " + players.get(getPlayerSelecting()).symbol();
@@ -42,7 +50,7 @@ public class GameState {
 
 
     public Cell[] resetCells(Game game) {
-        Cell[] cells = new Cell[25];
+        Cell[] cells = new Cell[TOTAL];
         Board board = game.getBoard();
         for (int row = 0; row < ROWS; row++) {
             for (int col = 0; col < COLS; col++) {
@@ -66,7 +74,7 @@ public class GameState {
 
 
     public Cell[] startCells(Game game) {
-        Cell[] cells = new Cell[25];
+        Cell[] cells = new Cell[TOTAL];
         Board board = game.getBoard();
         for (int row = 0; row < ROWS; row++) {
             for (int col = 0; col < COLS; col++) {
@@ -195,6 +203,8 @@ public class GameState {
             case "Pan":
                 gameLogic = new PanGameLogic(gameLogic);
                 break;
+            default:
+                break;
         }
         game.assignGameLogic(players.get(player), gameLogic);
         pickingGodIndex++;
@@ -239,7 +249,7 @@ public class GameState {
     }
 
     public boolean getWorkerInitiated() {
-        return pickingLocationIndex >= 4;
+        return pickingLocationIndex >= WORKER_NUM;
     }
 
     public void pickStartLocation(int playerIndex, int row, int col) {
@@ -248,7 +258,7 @@ public class GameState {
             cells = startCells(game);
             instruction = "Pick start location for player " + players.get(getPlayerPickingLocation()).symbol();
         }
-        if (pickingLocationIndex >= 4) {
+        if (pickingLocationIndex >= WORKER_NUM) {
             instruction = "Start locations all set. Now game begins";
             cells = resetCells(game);
         }

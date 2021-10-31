@@ -20,10 +20,11 @@ public class App extends NanoHTTPD {
 
     private GameState gameState;
     private Template template;
+    private static final int PORT = 8080;
 
 
     public App() throws IOException {
-        super(8080);
+        super(PORT);
 
         this.gameState = new GameState(new Game());
         Handlebars handlebars = new Handlebars();
@@ -39,21 +40,27 @@ public class App extends NanoHTTPD {
         try {
             String uri = session.getUri();
             Map<String, String> params = session.getParms();
-            switch (uri) {
-                case "/newgame" -> gameState = new GameState(new Game());
-                case "/choose" -> gameState.setActiveWorker(Integer.parseInt(params.get("row")), Integer.parseInt(params.get("col")));
-                case "/move" -> gameState.move(Integer.parseInt(params.get("row")), Integer.parseInt(params.get("col")));
-                case "/build" -> gameState.build(Integer.parseInt(params.get("row")), Integer.parseInt(params.get("col")));
-                case "/skip" -> gameState.skip();
-                case "/chooseGod" -> gameState.assignGameLogic(Integer.parseInt(params.get("player")), params.get("god"));
-                case "/pickStartLocation" -> gameState.pickStartLocation(
+            if (uri.equals("/newgame")) {
+                gameState = new GameState(new Game());
+            } else if (uri.equals("/choose")) {
+                gameState.setActiveWorker(Integer.parseInt(params.get("row")), Integer.parseInt(params.get("col")));
+            } else if (uri.equals("/move")) {
+                gameState.move(Integer.parseInt(params.get("row")), Integer.parseInt(params.get("col")));
+            } else if (uri.equals("/build")) {
+                gameState.build(Integer.parseInt(params.get("row")), Integer.parseInt(params.get("col")));
+            } else if (uri.equals("/skip")) {
+                gameState.skip();
+            } else if (uri.equals("/chooseGod")) {
+                gameState.assignGameLogic(Integer.parseInt(params.get("player")), params.get("god"));
+            } else if (uri.equals("/pickStartLocation")) {
+                gameState.pickStartLocation(
                         Integer.parseInt(params.get("player")),
                         Integer.parseInt(params.get("row")),
                         Integer.parseInt(params.get("col")));
             }
-            // game state not changed.
-            String HTML = this.template.apply(gameState);
-            return newFixedLengthResponse(HTML);
+
+            String html = this.template.apply(gameState);
+            return newFixedLengthResponse(html);
         } catch (IOException e) {
             e.printStackTrace();
             return null;

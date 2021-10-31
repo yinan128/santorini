@@ -1,13 +1,18 @@
 package edu.cmu.cs214.hw3.util;
 
-import java.util.*;
+
+import java.util.HashMap;
+import java.util.List;
+import java.util.ArrayList;
+import java.util.Map;
+import java.util.Objects;
 
 /**
  * A class to represent the location (row, col) on the board.
  */
 public final class Location {
 
-    private static final Map<Integer, Location> cache = new HashMap<>();
+    private static final Map<Integer, Location> CACHE = new HashMap<>();
     private final int row;
     private final int col;
 
@@ -19,12 +24,12 @@ public final class Location {
     // static factory.
     public static Location get(int row, int col) {
         int hashCode = Objects.hash(row, col);
-        if (!cache.containsKey(hashCode)) {
+        if (!CACHE.containsKey(hashCode)) {
             Location result = new Location(row, col);
-            cache.put(hashCode, result);
+            CACHE.put(hashCode, result);
             return result;
         }
-        return cache.get(hashCode);
+        return CACHE.get(hashCode);
     }
 
     /**

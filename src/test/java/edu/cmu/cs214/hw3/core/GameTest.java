@@ -148,7 +148,7 @@ public class GameTest {
         game.moveWorker(playerA, Location.get(2, 1), Location.get(2, 2));
         game.build(playerA, Location.get(2, 2), Location.get(2, 1));
         // opponent is blocked to move up.
-        game.printBoard();
+
         assertFalse(game.moveWorker(playerB, Location.get(2, 3), Location.get(2, 4)));
     }
 
@@ -407,21 +407,21 @@ public class GameTest {
         game.placeWorker(player1, Location.get(4, 4));
         game.placeWorker(player2, Location.get(4, 0));
         game.placeWorker(player2, Location.get(0, 4));
-        game.printBoard();
+
 
         game.moveWorker(player1, Location.get(0, 0), Location.get(0, 1));
         game.skipAction(player1);
         game.build(player1, Location.get(0,1), Location.get(0,0));
-        game.printBoard();
+
 
         game.moveWorker(player2, Location.get(0, 4), Location.get(1, 4));
         game.build(player2, Location.get(1, 4), Location.get(0, 4));
-        game.printBoard();
+
 
         game.moveWorker(player1, Location.get(0, 1), Location.get(1, 0));
         game.moveWorker(player1, Location.get(1, 0), Location.get(0, 0));
         game.build(player1, Location.get(0, 0), Location.get(1, 1));
-        game.printBoard();
+
 
 
     }

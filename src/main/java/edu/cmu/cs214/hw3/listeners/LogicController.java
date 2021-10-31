@@ -12,7 +12,7 @@ import java.util.Map;
  */
 public class LogicController implements EventListener {
 
-    Map<Player, GameLogic> logics;
+    private final Map<Player, GameLogic> logics;
 
     public LogicController(Map<Player, GameLogic> logics) {
         this.logics = logics;

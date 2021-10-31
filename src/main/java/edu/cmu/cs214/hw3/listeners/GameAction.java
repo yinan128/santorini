@@ -36,6 +36,7 @@ public final class GameAction {
      * Identify if the parameters match the current instance.
      * @param player the player who wants to make an action.
      * @param action the action player wants to make.
+     * @param location the location of the field the player selected.
      * @return true if they match.
      */
     public boolean matches(Player player, WorkerAction action, Location location) {
