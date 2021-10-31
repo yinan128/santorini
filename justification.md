@@ -81,3 +81,8 @@ In this case, it is convenient to let the god card decorate the basic game logic
 The SequenceHandler and GameLogicController used this pattern because they need event updates from the game to change its state.
 For example, sequenceHandler need to decide which action is available in the next turn; GameLogicController need to know whether the god card has changed the game rule.
 The observer pattern will also be necessary when GUI is implemented in this program since the view need to update every time when player makes a valid action.
+
+
+3) Adapter pattern is used to connect the backend(Game) and frontend(GUI).
+Because the backend was written and well tested before implementing GUI, I don't want to change it a lot just to adapt to the additional requirement from GUI side.
+So GameState is created to connect the backend and frontend.

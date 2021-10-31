@@ -94,3 +94,25 @@ UML contains notation for many advanced concepts, such as loops and conditions i
 
 To maximize clarity, we recommend that you draw UML diagrams with software tools. We do not require specific tools, and you may share tool-related tips on Piazza. There are several easy to use online tools like [Draw.io](https://draw.i/) and [Yumly](https://yuml.me/), and also many desktop tools and IDE plugins. We strongly recommend that you do not mechanically extract models from a software implementation; such mechanically generated models are almost always at an inappropriate level of abstraction. We will accept handwritten models or photographs of models (such as whiteboard sketches) if the models are clearly legible.
 
+## Starting a game
+
+You don't need to pass any more command line arguments. Execute App.java and go to http://localhost:8080/ in your browser.
+
+Before the game starts, you need to select god cards for player A and B.
+After that, choose the initial workers for player A and B.
+When the game officially starts, you need to select the player -> perform action according to the instruction. 
+After an action, no matter it is successful or not, you need to select the worker again to do the next action.
+During the game, the skip button is always clickable but it won't come to effect unless you are eligible to skip the action.
+
+## God cards
+the following god cards are implemented:
+- Apollo
+- Artemis
+- Athena
+- Atlas
+- Demeter
+- Hephaestus
+- Hermes
+- Minotaur
+- Pan
+
