@@ -45,10 +45,6 @@ public class Game {
             logic.subscribe(gameLogicController);
             logic.subscribe(sequenceHandler);
         });
-        placeWorker(players.get(0), Location.get(0,0));
-        placeWorker(players.get(0), Location.get(4,4));
-        placeWorker(players.get(1), Location.get(0,4));
-        placeWorker(players.get(1), Location.get(4,0));
     }
 
     /**

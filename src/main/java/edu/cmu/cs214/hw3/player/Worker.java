@@ -60,4 +60,8 @@ public class Worker {
         return prevState;
     }
 
+    @Override
+    public String toString() {
+        return "Worker at " + location.toString();
+    }
 }
